@@ -5,8 +5,8 @@ namespace ModuleAssignment.Interfaces
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-        void Add(T designation);
-        void Update(T designation);
+        void Add(T entity);
+        void Update(T entity);
         void Delete(int id);
     }
 }

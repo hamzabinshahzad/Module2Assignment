@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ModuleAssignment.Data;
+using ModuleAssignment.Interfaces;
+using ModuleAssignment.Models;
+using ModuleAssignment.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +13,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddScoped<IUnitofWork, UnitofWork>();
+builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+builder.Services.AddScoped<IGenericRepository<EmployeeAddress>, GenericRepository<EmployeeAddress>>();
+builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<EmployeeType>>();
+builder.Services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
+builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
+
+
 // DbContext
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppCon")));
+builder.Services.AddDbContext<EmployeeDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppCon")));
 
 var app = builder.Build();
 

@@ -7,45 +7,47 @@ namespace ModuleAssignment.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
+        private readonly EmployeeDbContext Context;
         private readonly DbSet<T> DbSet;
 
-        public GenericRepository(AppDbContext IncomingContext)
+        public GenericRepository(EmployeeDbContext IncomingContext)
         {
-            this.DbSet = IncomingContext.Set<T>();
+            this.Context = IncomingContext;
+            this.DbSet = Context.Set<T>();
         }
 
-        public void Add(T obj)
+        public void Add(T entity)
         {
-            DbSet.Add(obj);
+            DbSet.Add(entity);
         }
 
 
         public void Delete(int id)
         {
-            var Obj = DbSet.Find(id);
-            if (Obj != null) DbSet.Remove(Obj);
+            var Entity = DbSet.Find(id);
+            if (Entity != null) DbSet.Remove(Entity);
         }
 
 
         public IEnumerable<T> GetAll()
         {
-            var Obj = DbSet.ToList();
-            if (Obj != null) return Obj;
+            var Entity = DbSet.ToList();
+            if (Entity != null) return Entity;
             else return null;
         }
 
 
         public T GetById(int id)
         {
-            var Obj = DbSet.Find(id);
-            if (Obj != null) return Obj;
+            var Entity = DbSet.Find(id);
+            if (Entity != null) return Entity;
             else return null;
         }
 
 
-        public void Update(T obj)
+        public void Update(T Entity)
         {
-            DbSet.Update(obj);
+            DbSet.Update(Entity);
         }
 
 
