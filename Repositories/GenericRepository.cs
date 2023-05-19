@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
-using ModuleAssignment.Models;
+
 
 namespace ModuleAssignment.Repositories
 {

@@ -16,17 +16,47 @@ namespace ModuleAssignment.Controllers
             _UnitofWork = unitofWork;
         }
 
+
         [HttpGet]
-        public IEnumerable<Department> GetDepartments()
+        public IActionResult GetAll()
         {
-            return _UnitofWork.DepartmentRepository.GetAll();
+            return Ok(_UnitofWork.DepartmentRepository.GetAll());
         }
 
+
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            return Ok(_UnitofWork.EmployeeRepository.GetById(id));
+        }
+
+
         [HttpPost]
-        public void AddDepartment(Department department)
+        public IActionResult Add(Department department)
         {
             _UnitofWork.DepartmentRepository.Add(department);
             _UnitofWork.Commit();
+            return Ok(department);
         }
+
+
+        [HttpPost]
+        public IActionResult Update(Department department) 
+        {
+            _UnitofWork.DepartmentRepository.Update(department);
+            _UnitofWork.Commit();
+            return Ok(department);
+        }
+
+
+        [HttpPost]
+        public IActionResult Remove(int id)
+        {
+            _UnitofWork.DepartmentRepository.Delete(id);
+            _UnitofWork.Commit();
+            return Ok($"Department with id: {id} has been deleted successfully!");
+        }
+
+
     }
 }

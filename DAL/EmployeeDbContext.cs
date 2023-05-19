@@ -10,7 +10,7 @@ namespace ModuleAssignment.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeAddress> EmployeeAddresses { get; set; }
         public DbSet<EmployeeType> EmployeeTypes { get; set; }
-        public DbSet<Department> Department { get; set; }
-        public DbSet<Designation> DepartmentDesignations { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Designation> Designations { get; set; }
     }
 }

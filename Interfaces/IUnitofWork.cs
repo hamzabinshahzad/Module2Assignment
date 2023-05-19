@@ -4,13 +4,12 @@ namespace ModuleAssignment.Interfaces
 {
     public interface IUnitofWork
     {
-        IGenericRepository<Employee> EmployeeRepository { get; }
-        IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; }
-        IGenericRepository<EmployeeType> EmployeeTypeRepository { get; }
-        IGenericRepository<Department> DepartmentRepository { get; }
-        IGenericRepository<Designation> DesignationRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
+        IEmployeeAddressRepository EmployeeAddressRepository { get; }
+        IEmployeeTypeRepository EmployeeTypeRepository { get; }
+        IDepartmentRepository DepartmentRepository { get; }
+        IDesignationRepository DesignationRepository { get; }
 
         void Commit();
-        void Dispose();
     }
 }

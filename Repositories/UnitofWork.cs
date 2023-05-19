@@ -9,45 +9,43 @@ namespace ModuleAssignment.Repositories
     {
         private readonly EmployeeDbContext Context;
 
-        private readonly IGenericRepository<Employee> _EmployeeRepository;
-        private readonly IGenericRepository<EmployeeAddress> _EmployeeAddressRepository;
-        private readonly IGenericRepository<EmployeeType> _EmployeeTypeRepository;
-        private readonly IGenericRepository<Department> _DepartmentRepository;
-        private readonly IGenericRepository<Designation> _DesignationRepository;
-
+        //private readonly IGenericRepository<Employee> _EmployeeRepository;
+        //private readonly IGenericRepository<EmployeeAddress> _EmployeeAddressRepository;
+        //private readonly IGenericRepository<EmployeeType> _EmployeeTypeRepository;
+        //private readonly IGenericRepository<Department> _DepartmentRepository;
+        //private readonly IGenericRepository<Designation> _DesignationRepository;
+        public IEmployeeRepository EmployeeRepository { get; private set; }
+        public IEmployeeAddressRepository EmployeeAddressRepository { get; private set; }
+        public IEmployeeTypeRepository EmployeeTypeRepository { get; private set; }
+        public IDepartmentRepository DepartmentRepository { get; private set; }
+        public IDesignationRepository DesignationRepository { get; private set; }
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
-            IGenericRepository<Employee> employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
-            IGenericRepository<EmployeeType> employeeTypeRepository, IGenericRepository<Department> departmentRepository, 
-            IGenericRepository<Designation> designationRepository
+            IEmployeeRepository employeeRepository, IEmployeeAddressRepository employeeAddressRepository,
+            IEmployeeTypeRepository employeeTypeRepository, IDepartmentRepository departmentRepository, 
+            IDesignationRepository designationRepository
         )
         {
-            this.Context = IncomingContext;
-            _EmployeeRepository = employeeRepository;
-            _EmployeeAddressRepository = employeeAddressRepository;
-            _EmployeeTypeRepository = employeeTypeRepository;
-            _DepartmentRepository = departmentRepository;
-            _DesignationRepository = designationRepository;
+            Context = IncomingContext;
+            EmployeeRepository = employeeRepository;
+            EmployeeAddressRepository = employeeAddressRepository;
+            EmployeeTypeRepository = employeeTypeRepository;
+            DepartmentRepository = departmentRepository;
+            DesignationRepository = designationRepository;
         }
 
 
-        public IGenericRepository<Employee> EmployeeRepository => _EmployeeRepository;
-        public IGenericRepository<EmployeeAddress> EmployeeAddressRepository => _EmployeeAddressRepository;
-        public IGenericRepository<EmployeeType> EmployeeTypeRepository => _EmployeeTypeRepository;
-        public IGenericRepository<Department> DepartmentRepository => _DepartmentRepository;
-        public IGenericRepository<Designation> DesignationRepository => _DesignationRepository;
+        //public IGenericRepository<Employee> EmployeeRepository => _EmployeeRepository;
+        //public IGenericRepository<EmployeeAddress> EmployeeAddressRepository => _EmployeeAddressRepository;
+        //public IGenericRepository<EmployeeType> EmployeeTypeRepository => _EmployeeTypeRepository;
+        //public IGenericRepository<Department> DepartmentRepository => _DepartmentRepository;
+        //public IGenericRepository<Designation> DesignationRepository => _DesignationRepository;
 
 
         public void Commit()
         {
             Context.SaveChanges();   
-        }
-
-
-        public void Dispose()
-        {
-            Context.Dispose();
         }
 
 
