@@ -2,16 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
+using System.Net;
 
 namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class EmployeeAddressesController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
 
-        public DepartmentsController(IUnitofWork unitofWork)
+        public EmployeeAddressesController(IUnitofWork unitofWork)
         {
             _UnitofWork = unitofWork;
         }
@@ -20,43 +21,42 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitofWork.DepartmentRepository.GetAll());
+            return Ok(_UnitofWork.EmployeeAddressRepository.GetAll());
         }
 
 
         [HttpGet]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.EmployeeRepository.GetById(id));
+            return Ok(_UnitofWork.EmployeeAddressRepository.GetById(id));
         }
 
 
         [HttpPost]
-        public IActionResult Add(Department department)
+        public IActionResult Add(EmployeeAddress address)
         {
-            _UnitofWork.DepartmentRepository.Add(department);
+            _UnitofWork.EmployeeAddressRepository.Add(address);
             _UnitofWork.Commit();
-            return Ok(department);
+            return Ok(address);
         }
 
 
         [HttpPut]
-        public IActionResult Update(Department department) 
+        public IActionResult Update(EmployeeAddress address)
         {
-            _UnitofWork.DepartmentRepository.Update(department);
+            _UnitofWork.EmployeeAddressRepository.Update(address);
             _UnitofWork.Commit();
-            return Ok(department);
+            return Ok(address);
         }
 
 
         [HttpDelete]
         public IActionResult Remove(int id)
         {
-            _UnitofWork.DepartmentRepository.Delete(id);
+            _UnitofWork.EmployeeAddressRepository.Delete(id);
             _UnitofWork.Commit();
-            return Ok($"Department with id: {id} has been deleted successfully!");
+            return Ok($"Address with id: {id} has been deleted successfully!");
         }
-
 
     }
 }
