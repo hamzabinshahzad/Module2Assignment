@@ -8,7 +8,7 @@ namespace ModuleAssignment.Services
         IEmployeeRepository EmployeeRepository { get; }
         IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; }
         IGenericRepository<EmployeeType> EmployeeTypeRepository { get; }
-        IGenericRepository<Department> DepartmentRepository { get; }
+        IDepartmentRepository DepartmentRepository { get; }
         IGenericRepository<Designation> DesignationRepository { get; }
 
         void Commit();

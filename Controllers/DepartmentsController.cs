@@ -31,6 +31,13 @@ namespace ModuleAssignment.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetNumberOfEmployees(int id)
+        {
+            return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInDepartment(id));
+        }
+
+
         [HttpPost]
         public IActionResult Add(Department department)
         {

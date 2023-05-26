@@ -9,35 +9,28 @@ namespace ModuleAssignment.Services
     {
         private readonly EmployeeDbContext Context;
 
-        private readonly IEmployeeRepository _EmployeeRepository;
-        private readonly IGenericRepository<EmployeeAddress> _EmployeeAddressRepository;
-        private readonly IGenericRepository<EmployeeType> _EmployeeTypeRepository;
-        private readonly IGenericRepository<Department> _DepartmentRepository;
-        private readonly IGenericRepository<Designation> _DesignationRepository;
 
+        public IEmployeeRepository EmployeeRepository { get; private set; }
+        public IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; private set; }
+        public IGenericRepository<EmployeeType> EmployeeTypeRepository { get; private set; }
+        public IDepartmentRepository DepartmentRepository { get; private set; }
+        public IGenericRepository<Designation> DesignationRepository { get; private set; }
 
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
             IEmployeeRepository employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
-            IGenericRepository<EmployeeType> employeeTypeRepository, IGenericRepository<Department> departmentRepository,
+            IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
             IGenericRepository<Designation> designationRepository
         )
         {
             Context = IncomingContext;
-            _EmployeeRepository = employeeRepository;
-            _EmployeeAddressRepository = employeeAddressRepository;
-            _EmployeeTypeRepository = employeeTypeRepository;
-            _DepartmentRepository = departmentRepository;
-            _DesignationRepository = designationRepository;
+            EmployeeRepository = employeeRepository;
+            EmployeeAddressRepository = employeeAddressRepository;
+            EmployeeTypeRepository = employeeTypeRepository;
+            DepartmentRepository = departmentRepository;
+            DesignationRepository = designationRepository;
         }
-
-
-        public IEmployeeRepository EmployeeRepository => _EmployeeRepository;
-        public IGenericRepository<EmployeeAddress> EmployeeAddressRepository => _EmployeeAddressRepository;
-        public IGenericRepository<EmployeeType> EmployeeTypeRepository => _EmployeeTypeRepository;
-        public IGenericRepository<Department> DepartmentRepository => _DepartmentRepository;
-        public IGenericRepository<Designation> DesignationRepository => _DesignationRepository;
 
 
         public void Commit()
