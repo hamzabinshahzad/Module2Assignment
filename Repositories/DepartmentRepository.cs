@@ -26,14 +26,25 @@ namespace ModuleAssignment.Repositories
         }
 
 
-        public IQueryable NumberOfEmployeesInAllDepartments()
+        public dynamic NumberOfEmployeesInAllDepartments()
         {
             //var EmpCounDeptList = Context.Departments.ToList();
             //foreach(var dept in EmpCounDeptList)
             //{
             //    NumberOfEmployeesInDepartment(dept.Id);
             //}
-            throw new NotImplementedException();
+            var EmpCountDeptList = Context.Departments
+                .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId, (dept, emp) => new { dept, emp })
+                .Select(data => new
+                {
+                    data.dept.DepartmentName,
+                    data.emp.FullName
+                })
+                .GroupBy(data => data.DepartmentName)
+                .Count();
+
+
+            return EmpCountDeptList;
         }
 
 

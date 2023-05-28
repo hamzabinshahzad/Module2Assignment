@@ -38,6 +38,14 @@ namespace ModuleAssignment.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetNumberOfEmployeesInAll()
+        {
+            return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInAllDepartments());
+        }
+
+
+
         [HttpPost]
         public IActionResult Add(Department department)
         {
