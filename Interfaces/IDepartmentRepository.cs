@@ -6,6 +6,6 @@ namespace ModuleAssignment.Interfaces
     {
         int NumberOfEmployeesInDepartment(int id);
 
-        dynamic NumberOfEmployeesInAllDepartments();
+        IQueryable NumberOfEmployeesInAllDepartments();
     }
 }
