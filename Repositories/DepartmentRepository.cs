@@ -29,7 +29,7 @@ namespace ModuleAssignment.Repositories
         public IQueryable NumberOfEmployeesInAllDepartments()
         {
             var EmpCountDeptList = Context.Departments
-                .GroupJoin(Context.Employees, dept => dept.Id, emp => emp.DeptId, (dept, emp) => new { dept, emp })
+                .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId, (dept, emp) => new { dept, emp })
                 .GroupBy(data => data.dept.DepartmentName)
                 .Select(data => new
                 {

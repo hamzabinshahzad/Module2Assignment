@@ -32,18 +32,17 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
-        public IActionResult GetNumberOfEmployees(int id)
+        public IActionResult GetTotalEmployeesInDepartment(int id)
         {
             return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInDepartment(id));
         }
 
 
         [HttpGet]
-        public IActionResult GetNumberOfEmployeesInAll()
+        public IActionResult GetTotalEmployees()
         {
             return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInAllDepartments());
         }
-
 
 
         [HttpPost]
