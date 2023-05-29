@@ -15,6 +15,7 @@ namespace ModuleAssignment.Repositories
             Context = IncomingContext;
         }
 
+
         public IQueryable GetEmployeeDetailsById(int id)
         {
             var Emp = Context.Employees
@@ -35,9 +36,27 @@ namespace ModuleAssignment.Repositories
                 }
             );
 
-            if (Emp != null) return Emp;
-            else return null;
+            return Emp;
         }
+
+
+        public IQueryable GetAddressById(int id)
+        {
+            var EmpAddress = Context.Employees
+                .Where(emps => emps.Id == id)
+                .Join(Context.EmployeeAddresses, emp => emp.Id, addr => addr.EmployeeId, (emp, addr) => new { emp.FullName, addr })
+                .Select(data => new
+                {
+                    EmployeeName = data.FullName,
+                    data.addr.SteetAddress,
+                    data.addr.City,
+                    data.addr.State,
+                    data.addr.Country
+                });
+
+            return EmpAddress;
+        }
+
 
     }
 }

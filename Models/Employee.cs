@@ -20,9 +20,11 @@ namespace ModuleAssignment.Models
         public DateTime DateOfBirth { get; set; }
 
         [Required]
+        [Phone]
         public string Mobile { get; set; }
 
         [Required]
+        [Range(500, 5000000)]
         public decimal Salary { get; set; }
 
         [Required]

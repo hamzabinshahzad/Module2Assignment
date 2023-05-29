@@ -40,6 +40,13 @@ namespace ModuleAssignment.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetEmployeeAddressById(int id)
+        {
+            return Ok(_UnitOfWork.EmployeeRepository.GetAddressById(id));
+        }
+
+
         [HttpPost]
         public IActionResult Add(Employee employee)
         {
