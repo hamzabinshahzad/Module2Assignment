@@ -3,6 +3,7 @@ using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
 using ModuleAssignment.Repositories;
+using ModuleAssignment.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +16,10 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
-builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
+builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
 builder.Services.AddScoped<IGenericRepository<EmployeeAddress>, GenericRepository<EmployeeAddress>>();
 builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<EmployeeType>>();
-builder.Services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
 
 

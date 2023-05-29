@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
 using ModuleAssignment.Repositories;
+using ModuleAssignment.Services;
 
 namespace ModuleAssignment.Controllers
 {
@@ -18,7 +18,6 @@ namespace ModuleAssignment.Controllers
         }
 
 
-        //[HttpGet(template: "SyncEmployees")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +31,7 @@ namespace ModuleAssignment.Controllers
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetById(id));
         }
+
 
         [HttpGet]
         public IActionResult GetDetailsById(int id)
@@ -49,7 +49,7 @@ namespace ModuleAssignment.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Update(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Update(employee);
@@ -58,7 +58,7 @@ namespace ModuleAssignment.Controllers
         }
 
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Remove(int id) 
         {
             _UnitOfWork.EmployeeRepository.Delete(id);

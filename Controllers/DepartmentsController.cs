@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
+using ModuleAssignment.Services;
 
 namespace ModuleAssignment.Controllers
 {
@@ -31,6 +31,20 @@ namespace ModuleAssignment.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetTotalEmployeesInDepartment(int id)
+        {
+            return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInDepartment(id));
+        }
+
+
+        [HttpGet]
+        public IActionResult GetTotalEmployees()
+        {
+            return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInAllDepartments());
+        }
+
+
         [HttpPost]
         public IActionResult Add(Department department)
         {
@@ -40,7 +54,7 @@ namespace ModuleAssignment.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPut]
         public IActionResult Update(Department department) 
         {
             _UnitofWork.DepartmentRepository.Update(department);
@@ -49,7 +63,7 @@ namespace ModuleAssignment.Controllers
         }
 
 
-        [HttpPost]
+        [HttpDelete]
         public IActionResult Remove(int id)
         {
             _UnitofWork.DepartmentRepository.Delete(id);
