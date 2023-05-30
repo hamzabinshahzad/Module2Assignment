@@ -35,8 +35,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Add(EmployeeType employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Add(employeeType);
-            _UnitOfWork.Commit();
-            return Ok(employeeType);
+            if (_UnitOfWork.Commit() > 0) return Ok(employeeType);
+            else return StatusCode(500);
         }
 
 
@@ -44,8 +44,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Update(EmployeeType employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Update(employeeType);
-            _UnitOfWork.Commit();
-            return Ok(employeeType);
+            if (_UnitOfWork.Commit() > 0) return Ok(employeeType);
+            else return StatusCode(500);
         }
 
 
@@ -53,8 +53,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Remove(int id)
         {
             _UnitOfWork.EmployeeTypeRepository.Delete(id);
-            _UnitOfWork.Commit();
-            return Ok($"Employee Type with id: {id} has been deleted successfully.");
+            if(_UnitOfWork.Commit() > 0) return Ok($"Employee Type with id: {id} has been deleted successfully.");
+            else return StatusCode(500);
         }
 
 

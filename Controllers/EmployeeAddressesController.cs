@@ -10,53 +10,54 @@ namespace ModuleAssignment.Controllers
     [ApiController]
     public class EmployeeAddressesController : ControllerBase
     {
-        private readonly IUnitofWork _UnitofWork;
+        private readonly IUnitofWork _UnitOfWork;
 
         public EmployeeAddressesController(IUnitofWork unitofWork)
         {
-            _UnitofWork = unitofWork;
+            _UnitOfWork = unitofWork;
         }
 
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitofWork.EmployeeAddressRepository.GetAll());
+            return Ok(_UnitOfWork.EmployeeAddressRepository.GetAll());
         }
 
 
         [HttpGet]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.EmployeeAddressRepository.GetById(id));
+            return Ok(_UnitOfWork.EmployeeAddressRepository.GetById(id));
         }
 
 
         [HttpPost]
         public IActionResult Add(EmployeeAddress address)
         {
-            _UnitofWork.EmployeeAddressRepository.Add(address);
-            _UnitofWork.Commit();
-            return Ok(address);
+            _UnitOfWork.EmployeeAddressRepository.Add(address);
+            if (_UnitOfWork.Commit() > 0) return Ok(address);
+            else return StatusCode(500);
         }
 
 
         [HttpPut]
         public IActionResult Update(EmployeeAddress address)
         {
-            _UnitofWork.EmployeeAddressRepository.Update(address);
-            _UnitofWork.Commit();
-            return Ok(address);
+            _UnitOfWork.EmployeeAddressRepository.Update(address);
+            if (_UnitOfWork.Commit() > 0) return Ok(address);
+            else return StatusCode(500);
         }
 
 
         [HttpDelete]
         public IActionResult Remove(int id)
         {
-            _UnitofWork.EmployeeAddressRepository.Delete(id);
-            _UnitofWork.Commit();
-            return Ok($"Address with id: {id} has been deleted successfully!");
+            _UnitOfWork.EmployeeAddressRepository.Delete(id);
+            if (_UnitOfWork.Commit() > 0) return Ok($"Address with id: {id} has been deleted successfully!");
+            else return StatusCode(500);
         }
+
 
     }
 }

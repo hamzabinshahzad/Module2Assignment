@@ -11,6 +11,6 @@ namespace ModuleAssignment.Services
         IDepartmentRepository DepartmentRepository { get; }
         IGenericRepository<Designation> DesignationRepository { get; }
 
-        void Commit();
+        int Commit();
     }
 }

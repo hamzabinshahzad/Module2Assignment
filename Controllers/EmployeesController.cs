@@ -51,8 +51,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Add(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Add(employee);
-            _UnitOfWork.Commit();
-            return Ok(employee);
+            if (_UnitOfWork.Commit() > 0) return Ok(employee);
+            else return StatusCode(500);
         }
 
 
@@ -60,8 +60,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Update(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Update(employee);
-            _UnitOfWork.Commit();
-            return Ok(employee);
+            if (_UnitOfWork.Commit() > 0) return Ok(employee);
+            else return StatusCode(500);
         }
 
 
@@ -69,8 +69,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Remove(int id) 
         {
             _UnitOfWork.EmployeeRepository.Delete(id);
-            _UnitOfWork.Commit();
-            return Ok($"Employee with id: {id} has been deleted successfully!");
+            if (_UnitOfWork.Commit() > 0) return Ok($"Employee with id: {id} has been deleted successfully!");
+            else return StatusCode(500);
         }
 
 

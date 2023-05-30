@@ -8,6 +8,7 @@ namespace ModuleAssignment.Models
         public int Id { get; set; } // PK
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z ]*$")]
         public string DepartmentName { get; set; }
     }
 }

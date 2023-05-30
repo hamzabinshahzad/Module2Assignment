@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
+using System.Net;
 
 namespace ModuleAssignment.Controllers
 {
@@ -35,8 +36,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Add(Designation designation)
         {
             _UnitOfWork.DesignationRepository.Add(designation);
-            _UnitOfWork.Commit();
-            return Ok(designation);
+            if (_UnitOfWork.Commit() > 0) return Ok(designation);
+            else return StatusCode(500);
         }
 
 
@@ -44,8 +45,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Update(Designation designation)
         {
             _UnitOfWork.DesignationRepository.Update(designation);
-            _UnitOfWork.Commit();
-            return Ok(designation);
+            if (_UnitOfWork.Commit() > 0) return Ok(designation);
+            else return StatusCode(500);
         }
 
 
@@ -53,9 +54,10 @@ namespace ModuleAssignment.Controllers
         public IActionResult Remove(int id)
         {
             _UnitOfWork.DesignationRepository.Delete(id);
-            _UnitOfWork.Commit();
-            return Ok($"Designation with id: {id} has been deleted successfully.");
+            if (_UnitOfWork.Commit() > 0) return Ok($"Designation with id: {id} has been deleted successfully.");
+            else return StatusCode(500);
         }
+
 
     }
 }

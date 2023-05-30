@@ -1,7 +1,8 @@
-﻿using ModuleAssignment.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
-
+using System.Data;
 
 namespace ModuleAssignment.Services
 {
@@ -33,9 +34,24 @@ namespace ModuleAssignment.Services
         }
 
 
-        public void Commit()
+        public int Commit()
         {
-            Context.SaveChanges();
+            try
+            { 
+                int entries = Context.SaveChanges();
+                Console.WriteLine($"DB_IO: Entries written: {entries}");
+                return entries;
+            }
+            catch(DbUpdateException e)
+            {
+                Console.WriteLine($"ERROR: Unable to save changes to DB => {e.Message}");
+                return 0;
+            }
+            catch(DBConcurrencyException e)
+            {
+                Console.WriteLine($"ERROR: Unable to perform CRUD in DB => {e.Message}");
+                return 0;
+            }
         }
 
 

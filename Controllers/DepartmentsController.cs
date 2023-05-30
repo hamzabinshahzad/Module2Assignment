@@ -49,8 +49,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Add(Department department)
         {
             _UnitofWork.DepartmentRepository.Add(department);
-            _UnitofWork.Commit();
-            return Ok(department);
+            if (_UnitofWork.Commit() > 0) return Ok(department);
+            else return StatusCode(500);
         }
 
 
@@ -58,8 +58,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Update(Department department) 
         {
             _UnitofWork.DepartmentRepository.Update(department);
-            _UnitofWork.Commit();
-            return Ok(department);
+            if (_UnitofWork.Commit() > 0) return Ok(department);
+            else return StatusCode(500);
         }
 
 
@@ -67,8 +67,8 @@ namespace ModuleAssignment.Controllers
         public IActionResult Remove(int id)
         {
             _UnitofWork.DepartmentRepository.Delete(id);
-            _UnitofWork.Commit();
-            return Ok($"Department with id: {id} has been deleted successfully!");
+            if (_UnitofWork.Commit() > 0) return Ok($"Department with id: {id} has been deleted successfully!");
+            else return StatusCode(500);
         }
 
 
