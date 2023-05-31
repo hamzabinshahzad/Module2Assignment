@@ -21,8 +21,7 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitOfWork.EmployeeRepository.GetAll());
-            
+            return Ok(_UnitOfWork.EmployeeRepository.GetAll()); 
         }
 
 

@@ -8,7 +8,7 @@ namespace ModuleAssignment.Models
         public int Id { get; set; } // PK
 
         [Required]
-        [StringLength(256, MinimumLength = 5, ErrorMessage = @"Full Name length must be between {0} and {1} alphabets!")]
+        [StringLength(256, MinimumLength = 5, ErrorMessage = @"Full Name length must be between {1} and {2} alphabets!")]
         [RegularExpression(@"^[a-zA-Z]+[a-zA-Z ]*$", ErrorMessage = "Full Name must only contain alphabets and spaces!")]
         public string FullName { get; set; }
 
@@ -17,7 +17,11 @@ namespace ModuleAssignment.Models
         public string Gender { get; set; }
 
         [Required]
-        [StringLength(15, MinimumLength = 15, ErrorMessage = @"CNIC length must be {0} characters and can only contain digits and dashes!")]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+
+        [Required]
+        [StringLength(15, MinimumLength = 15, ErrorMessage = @"CNIC length must be {1} characters and can only contain digits and dashes!")]
         [RegularExpression(@"^[0-9]+-[0-9]+-[0-9]+$", ErrorMessage = "Correct format for CNIC is: XXXXX-XXXXXXX-X")]
         public string Cnic { get; set; }
 
@@ -27,28 +31,28 @@ namespace ModuleAssignment.Models
 
         [Required]
         [Phone]
-        [StringLength(15, MinimumLength = 10, ErrorMessage = @"Mobile Phone number length must be between {0} and {1} digits!")]
+        [StringLength(15, MinimumLength = 10, ErrorMessage = @"Mobile Phone number length must be between {1} and {2} digits!")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = @"Mobile Phone number must only contain numeric digits!")]
         public string Mobile { get; set; }
 
         [Required]
-        [Range(0, 5000000, ErrorMessage = @"Valid salary must be between {0} and {1}")]
+        [Range(0, 5000000, ErrorMessage = @"Valid salary must be between {1} and {2}")]
         public decimal Salary { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue, ErrorMessage = @"Valid ID for Reporting Employee must be between {0} and {1}")]
+        [Range(0, int.MaxValue, ErrorMessage = @"Valid ID for Reporting Employee must be between {1} and {2}")]
         public int ReportsToEmpId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Employee Type ID must be between {0} and {1}")]
+        [Range(1, int.MaxValue, ErrorMessage = @"Valid Employee Type ID must be between {1} and {2}")]
         public int EmpTypeId { get; set; } // FK
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Department ID must be between {0} and {1}")]
+        [Range(1, int.MaxValue, ErrorMessage = @"Valid Department ID must be between {1} and {2}")]
         public int DeptId { get; set; } // FK
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {0} and {1}")]
+        [Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {1} and {2}")]
         public int DesignationId { get; set; } // FK
     }
 }
