@@ -7,5 +7,7 @@ namespace ModuleAssignment.Interfaces
         IQueryable GetEmployeeDetailsById(int id);
 
         IQueryable GetAddressById(int id);
+
+        IQueryable GetEmployeeDetailsByEmail(string emailAddress);
     }
 }

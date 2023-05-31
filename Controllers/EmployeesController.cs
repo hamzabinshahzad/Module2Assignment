@@ -46,6 +46,13 @@ namespace ModuleAssignment.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult GetEmployeeDetailsByEmail(string emailAddress)
+        {
+            return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsByEmail(emailAddress));
+        }
+
+
         [HttpPost]
         public IActionResult Add(Employee employee)
         {
