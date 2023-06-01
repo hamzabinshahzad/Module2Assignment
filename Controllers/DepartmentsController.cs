@@ -7,27 +7,13 @@ namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class DepartmentsController : GenericController<Department>
     {
-        private readonly IUnitofWork _UnitofWork;
+        private readonly IUnitofWork<Department> _UnitofWork;
 
-        public DepartmentsController(IUnitofWork unitofWork)
+        public DepartmentsController(IUnitofWork<Department> unitofWork) : base(unitofWork)
         {
             _UnitofWork = unitofWork;
-        }
-
-
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(_UnitofWork.DepartmentRepository.GetAll());
-        }
-
-
-        [HttpGet]
-        public IActionResult GetById(int id)
-        {
-            return Ok(_UnitofWork.EmployeeRepository.GetById(id));
         }
 
 
@@ -42,33 +28,6 @@ namespace ModuleAssignment.Controllers
         public IActionResult GetTotalEmployees()
         {
             return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInAllDepartments());
-        }
-
-
-        [HttpPost]
-        public IActionResult Add(Department department)
-        {
-            _UnitofWork.DepartmentRepository.Add(department);
-            if (_UnitofWork.Commit() > 0) return Ok(department);
-            else return StatusCode(500);
-        }
-
-
-        [HttpPut]
-        public IActionResult Update(Department department) 
-        {
-            _UnitofWork.DepartmentRepository.Update(department);
-            if (_UnitofWork.Commit() > 0) return Ok(department);
-            else return StatusCode(500);
-        }
-
-
-        [HttpDelete]
-        public IActionResult Remove(int id)
-        {
-            _UnitofWork.DepartmentRepository.Delete(id);
-            if (_UnitofWork.Commit() > 0) return Ok($"Department with id: {id} has been deleted successfully!");
-            else return StatusCode(500);
         }
 
 

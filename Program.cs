@@ -15,7 +15,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IUnitofWork, UnitofWork>();
+builder.Services.AddScoped<IUnitofWork<Employee>, UnitofWork<Employee>>();
+builder.Services.AddScoped<IUnitofWork<EmployeeAddress>, UnitofWork<EmployeeAddress>>();
+builder.Services.AddScoped<IUnitofWork<EmployeeType>, UnitofWork<EmployeeType>>();
+builder.Services.AddScoped<IUnitofWork<Designation>, UnitofWork<Designation>>();
+builder.Services.AddScoped<IUnitofWork<Department>, UnitofWork<Department>>();
+
 builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
 builder.Services.AddScoped<IGenericRepository<EmployeeAddress>, GenericRepository<EmployeeAddress>>();
 builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<EmployeeType>>();

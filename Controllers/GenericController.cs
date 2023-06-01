@@ -2,50 +2,48 @@
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
-using System.Net;
 
 namespace ModuleAssignment.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    //[Route("api/[controller]/[action]")]
     [ApiController]
-    public class DesignationsController : ControllerBase
+    public class GenericController<T> : ControllerBase where T : class
     {
-        private readonly IUnitofWork _UnitOfWork;
+        private readonly IUnitofWork<T> _UnitOfWork;
 
-        public DesignationsController(IUnitofWork unitOfWork)
+        public GenericController(IUnitofWork<T> unitOfWork)
         {
             _UnitOfWork = unitOfWork;
         }
 
-
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitOfWork.DesignationRepository.GetAll());
+            return Ok(_UnitOfWork.GenericRepository.GetAll());
         }
 
 
         [HttpGet]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitOfWork.DesignationRepository.GetById(id));
+            return Ok(_UnitOfWork.GenericRepository.GetById(id));
         }
 
 
         [HttpPost]
-        public IActionResult Add(Designation designation)
+        public IActionResult Add(T entity)
         {
-            _UnitOfWork.DesignationRepository.Add(designation);
-            if (_UnitOfWork.Commit() > 0) return Ok(designation);
+            _UnitOfWork.GenericRepository.Add(entity);
+            if (_UnitOfWork.Commit() > 0) return Ok(entity);
             else return StatusCode(500);
         }
 
 
         [HttpPut]
-        public IActionResult Update(Designation designation)
+        public IActionResult Update(T entity)
         {
-            _UnitOfWork.DesignationRepository.Update(designation);
-            if (_UnitOfWork.Commit() > 0) return Ok(designation);
+            _UnitOfWork.GenericRepository.Update(entity);
+            if (_UnitOfWork.Commit() > 0) return Ok(entity);
             else return StatusCode(500);
         }
 
@@ -53,11 +51,9 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         public IActionResult Remove(int id)
         {
-            _UnitOfWork.DesignationRepository.Delete(id);
+            _UnitOfWork.GenericRepository.Delete(id);
             if (_UnitOfWork.Commit() > 0) return Ok($"Designation with id: {id} has been deleted successfully.");
             else return StatusCode(500);
         }
-
-
     }
 }

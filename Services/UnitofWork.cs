@@ -6,7 +6,7 @@ using System.Data;
 
 namespace ModuleAssignment.Services
 {
-    public class UnitofWork : IUnitofWork
+    public class UnitofWork<T> : IUnitofWork<T> where T : class
     {
         private readonly EmployeeDbContext Context;
 
@@ -16,13 +16,13 @@ namespace ModuleAssignment.Services
         public IGenericRepository<EmployeeType> EmployeeTypeRepository { get; private set; }
         public IDepartmentRepository DepartmentRepository { get; private set; }
         public IGenericRepository<Designation> DesignationRepository { get; private set; }
-
+        public IGenericRepository<T> GenericRepository { get; private set; }
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
             IEmployeeRepository employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
             IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
-            IGenericRepository<Designation> designationRepository
+            IGenericRepository<Designation> designationRepository, IGenericRepository<T> genericRepository
         )
         {
             Context = IncomingContext;
@@ -31,6 +31,7 @@ namespace ModuleAssignment.Services
             EmployeeTypeRepository = employeeTypeRepository;
             DepartmentRepository = departmentRepository;
             DesignationRepository = designationRepository;
+            GenericRepository = genericRepository;
         }
 
 
