@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
 
@@ -25,9 +26,10 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.EmployeeRepository.GetById(id));
+            return Ok(_UnitofWork.DepartmentRepository.GetById(id));
         }
 
 
