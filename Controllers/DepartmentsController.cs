@@ -9,9 +9,9 @@ namespace ModuleAssignment.Controllers
     [ApiController]
     public class DepartmentsController : GenericController<Department>
     {
-        private readonly IUnitofWork<Department> _UnitofWork;
+        private readonly IUnitofWork _UnitofWork;
 
-        public DepartmentsController(IUnitofWork<Department> unitofWork) : base(unitofWork)
+        public DepartmentsController(IUnitofWork unitofWork) : base(unitofWork)
         {
             _UnitofWork = unitofWork;
         }

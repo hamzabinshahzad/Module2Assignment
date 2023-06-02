@@ -10,9 +10,9 @@ namespace ModuleAssignment.Controllers
     [ApiController]
     public class EmployeesController : GenericController<Employee>
     {
-        private readonly IUnitofWork<Employee> _UnitOfWork;
+        private readonly IUnitofWork _UnitOfWork;
 
-        public EmployeesController(IUnitofWork<Employee> unitofWork) : base(unitofWork)
+        public EmployeesController(IUnitofWork unitofWork) : base(unitofWork)
         {
             _UnitOfWork = unitofWork;
         }

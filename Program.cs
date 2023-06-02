@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ModuleAssignment.Controllers;
 using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
@@ -15,11 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddScoped<IUnitofWork<Employee>, UnitofWork<Employee>>();
-builder.Services.AddScoped<IUnitofWork<EmployeeAddress>, UnitofWork<EmployeeAddress>>();
-builder.Services.AddScoped<IUnitofWork<EmployeeType>, UnitofWork<EmployeeType>>();
-builder.Services.AddScoped<IUnitofWork<Designation>, UnitofWork<Designation>>();
-builder.Services.AddScoped<IUnitofWork<Department>, UnitofWork<Department>>();
+builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 builder.Services.AddScoped<IEmployeeRepository,EmployeeRepository>();
 builder.Services.AddScoped<IGenericRepository<EmployeeAddress>, GenericRepository<EmployeeAddress>>();
@@ -27,6 +24,7 @@ builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<E
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
 
+//builder.Services.AddControllers().AddApplicationPart(typeof(GenericController<>).Assembly);
 
 // DbContext
 builder.Services.AddDbContext<EmployeeDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppCon")));
