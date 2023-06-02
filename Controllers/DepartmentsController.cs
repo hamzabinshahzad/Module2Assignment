@@ -34,6 +34,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetTotalEmployeesInDepartment(int id)
         {
             return Ok(_UnitofWork.DepartmentRepository.NumberOfEmployeesInDepartment(id));
@@ -48,6 +49,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPost]
+        [ArgumentCountFilter]
         public IActionResult Add(Department department)
         {
             _UnitofWork.DepartmentRepository.Add(department);
@@ -57,6 +59,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPut]
+        [ArgumentCountFilter]
         public IActionResult Update(Department department) 
         {
             _UnitofWork.DepartmentRepository.Update(department);
@@ -66,6 +69,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpDelete]
+        [ArgumentCountFilter]
         public IActionResult Remove(int id)
         {
             _UnitofWork.DepartmentRepository.Delete(id);

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Repositories;
 using ModuleAssignment.Services;
@@ -26,6 +27,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetById(id));
@@ -33,6 +35,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetDetailsById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsById(id));   
@@ -40,6 +43,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetEmployeeAddressById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetAddressById(id));
@@ -47,6 +51,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetEmployeeDetailsByEmail(string emailAddress)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsByEmail(emailAddress));
@@ -54,6 +59,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPost]
+        [ArgumentCountFilter]
         public IActionResult Add(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Add(employee);
@@ -63,6 +69,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPut]
+        [ArgumentCountFilter]
         public IActionResult Update(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Update(employee);
@@ -72,6 +79,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpDelete]
+        [ArgumentCountFilter]
         public IActionResult Remove(int id) 
         {
             _UnitOfWork.EmployeeRepository.Delete(id);

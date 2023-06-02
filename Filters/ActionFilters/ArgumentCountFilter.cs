@@ -14,8 +14,7 @@ namespace ModuleAssignment.Filters.ActionFilters
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
-        {
-            Console.WriteLine($"[ArgumentCountFilter]: [controller: {context.Controller}][Action: {context.ActionDescriptor}] Model State => {context.ModelState}");
-        }
+        { }
+        
     }
 }
