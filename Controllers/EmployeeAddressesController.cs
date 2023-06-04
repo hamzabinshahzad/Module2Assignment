@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
 using System.Net;
@@ -26,6 +27,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
             return Ok(_UnitOfWork.EmployeeAddressRepository.GetById(id));
@@ -33,6 +35,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPost]
+        [ArgumentCountFilter]
         public IActionResult Add(EmployeeAddress address)
         {
             _UnitOfWork.EmployeeAddressRepository.Add(address);
@@ -42,6 +45,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPut]
+        [ArgumentCountFilter]
         public IActionResult Update(EmployeeAddress address)
         {
             _UnitOfWork.EmployeeAddressRepository.Update(address);
@@ -51,6 +55,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpDelete]
+        [ArgumentCountFilter]
         public IActionResult Remove(int id)
         {
             _UnitOfWork.EmployeeAddressRepository.Delete(id);
