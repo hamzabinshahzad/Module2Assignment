@@ -74,17 +74,17 @@ namespace ModuleAssignment.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DeptId")
+                    b.Property<int>("DeptIdId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DesignationId")
+                    b.Property<int>("DesignationIdId")
                         .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmpTypeId")
+                    b.Property<int>("EmpTypeIdId")
                         .HasColumnType("int");
 
                     b.Property<string>("FullName")
@@ -101,13 +101,21 @@ namespace ModuleAssignment.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<int>("ReportsToEmpId")
+                    b.Property<int>("ReportsToEmpIdId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DeptIdId");
+
+                    b.HasIndex("DesignationIdId");
+
+                    b.HasIndex("EmpTypeIdId");
+
+                    b.HasIndex("ReportsToEmpIdId");
 
                     b.ToTable("Employees");
                 });
@@ -164,6 +172,41 @@ namespace ModuleAssignment.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmployeeTypes");
+                });
+
+            modelBuilder.Entity("ModuleAssignment.Models.Employee", b =>
+                {
+                    b.HasOne("ModuleAssignment.Models.Department", "DeptId")
+                        .WithMany()
+                        .HasForeignKey("DeptIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModuleAssignment.Models.Designation", "DesignationId")
+                        .WithMany()
+                        .HasForeignKey("DesignationIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModuleAssignment.Models.EmployeeType", "EmpTypeId")
+                        .WithMany()
+                        .HasForeignKey("EmpTypeIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModuleAssignment.Models.Employee", "ReportsToEmpId")
+                        .WithMany()
+                        .HasForeignKey("ReportsToEmpIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeptId");
+
+                    b.Navigation("DesignationId");
+
+                    b.Navigation("EmpTypeId");
+
+                    b.Navigation("ReportsToEmpId");
                 });
 #pragma warning restore 612, 618
         }
