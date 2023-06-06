@@ -1,4 +1,5 @@
-﻿using ModuleAssignment.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
 
@@ -23,8 +24,12 @@ namespace ModuleAssignment.Repositories
             //).Count();
 
             //return EmpCount;
+            var EmpCount = Context.Departments
+                .Where(dept => dept.Id == id)
+                .Include("Employees")
+                .Count();
 
-            throw new NotImplementedException();
+            return EmpCount;
         }
 
 
@@ -40,8 +45,16 @@ namespace ModuleAssignment.Repositories
             //    });
 
             //return EmpCountDeptList;
+            var EmpCountDeptList = Context.Departments
+                .Include("Employees")
+                .GroupBy(dept => dept.DepartmentName)
+                .Select(dept => new
+                {
+                    DepartmentName = dept.Key,
+                    TotalEmployees = dept.Count()
+                });
 
-            throw new NotImplementedException();
+            return EmpCountDeptList;
         }
 
 

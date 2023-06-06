@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
@@ -11,10 +13,12 @@ namespace ModuleAssignment.Controllers
     public class DepartmentsController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
+        private readonly IMapper _Mapper;
 
-        public DepartmentsController(IUnitofWork unitofWork)
+        public DepartmentsController(IUnitofWork unitofWork, IMapper mapper)
         {
             _UnitofWork = unitofWork;
+            _Mapper = mapper;
         }
 
 
@@ -29,7 +33,8 @@ namespace ModuleAssignment.Controllers
         [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.DepartmentRepository.GetById(id));
+            Department Dept = _UnitofWork.DepartmentRepository.GetById(id);
+            return Ok(_Mapper.Map<GetDepartment>(Dept));
         }
 
 
@@ -52,7 +57,7 @@ namespace ModuleAssignment.Controllers
         [ArgumentCountFilter]
         public IActionResult Add(Department department)
         {
-            _UnitofWork.DepartmentRepository.Add(department);
+            _UnitofWork.DepartmentRepository.Add(_Mapper.Map<Department>(department));
             if (_UnitofWork.Commit() > 0) return Ok(department);
             else return StatusCode(500);
         }

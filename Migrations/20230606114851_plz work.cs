@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ModuleAssignment.Migrations
 {
     /// <inheritdoc />
-    public partial class TestNAVProperty : Migration
+    public partial class plzwork : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -93,8 +93,7 @@ namespace ModuleAssignment.Migrations
                         name: "FK_Employees_Employees_ReportsToEmployeeId",
                         column: x => x.ReportsToEmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id"
-                       );
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

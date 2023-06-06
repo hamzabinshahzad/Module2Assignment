@@ -1,4 +1,5 @@
-﻿using ModuleAssignment.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
 
@@ -36,7 +37,24 @@ namespace ModuleAssignment.Repositories
             //);
 
             //return Emp;
-            throw new NotImplementedException();
+            var Emp = Context.Employees
+                .Where(emp => emp.Id == id)
+                .Include("Department")
+                .Include("EmployeeType")
+                .Include("Designation")
+                .Select(emp => new
+                {
+                    emp.FullName,
+                    emp.EmailAddress,
+                    emp.Gender,
+                    emp.Cnic,
+                    emp.DateOfBirth,
+                    emp.Designation.DesignationName,
+                    emp.EmployeeType.TypeName,
+                    emp.Department.DepartmentName
+                });
+
+            return Emp;
         }
 
 
@@ -55,8 +73,19 @@ namespace ModuleAssignment.Repositories
             //    });
 
             //return EmpAddress;
+            var EmpAddress = Context.EmployeeAddresses
+                .Where(empAddr => empAddr.Employee.Id == id)
+                .Include("Employee")
+                .Select(empAddr => new
+                {
+                    EmployeeName = empAddr.Employee.FullName,
+                    empAddr.SteetAddress,
+                    empAddr.City,
+                    empAddr.State,
+                    empAddr.Country
+                });
 
-            throw new NotImplementedException();
+            return EmpAddress;
         }
 
 
@@ -82,8 +111,25 @@ namespace ModuleAssignment.Repositories
             //);
 
             //return Emp;
+            var Emp = Context.Employees
+                .Where(emp => emp.EmailAddress == emailAddress)
+                .Include("Department")
+                .Include("EmployeeType")
+                .Include("Designation")
+                .Select(emp => new
+                {
+                    emp.FullName,
+                    emp.EmailAddress,
+                    emp.Gender,
+                    emp.Cnic,
+                    emp.DateOfBirth,
+                    emp.Mobile,
+                    emp.Designation.DesignationName,
+                    emp.EmployeeType.TypeName,
+                    emp.Department.DepartmentName
+                });
 
-            throw new NotImplementedException();
+            return Emp;
         }
 
 

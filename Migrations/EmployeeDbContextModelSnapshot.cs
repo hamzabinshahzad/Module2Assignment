@@ -213,11 +213,13 @@ namespace ModuleAssignment.Migrations
 
             modelBuilder.Entity("ModuleAssignment.Models.EmployeeAddress", b =>
                 {
-                    b.HasOne("ModuleAssignment.Models.Employee", null)
+                    b.HasOne("ModuleAssignment.Models.Employee", "Employee")
                         .WithMany("EmployeeAddresses")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("ModuleAssignment.Models.Department", b =>

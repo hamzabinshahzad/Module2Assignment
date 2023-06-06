@@ -28,6 +28,8 @@ namespace ModuleAssignment.Models
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = @"Employee ID must be between {1} and {2}")]
-        public int EmployeeId { get; set; } // FK
+        public int EmployeeId { get; set; }
+
+        public virtual Employee? Employee { get; set; } // NAV
     }
 }
