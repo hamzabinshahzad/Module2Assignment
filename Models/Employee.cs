@@ -39,20 +39,21 @@ namespace ModuleAssignment.Models
         [Range(0, 5000000, ErrorMessage = @"Valid salary must be between {1} and {2}")]
         public decimal Salary { get; set; }
 
-        [Required]
-        [Range(0, int.MaxValue, ErrorMessage = @"Valid ID for Reporting Employee must be between {1} and {2}")]
-        public int ReportsToEmpId { get; set; }
+        //[Required]
+        //[Range(0, int.MaxValue, ErrorMessage = @"Valid ID for Reporting Employee must be between {1} and {2}")]
+        public virtual Employee ReportsToEmployee { get; set; } // NAV
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Employee Type ID must be between {1} and {2}")]
-        public int EmpTypeId { get; set; } // FK
+        //[Required]
+        //[Range(1, int.MaxValue, ErrorMessage = @"Valid Employee Type ID must be between {1} and {2}")]
+        public virtual EmployeeType EmployeeType { get; set; } // NAV
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Department ID must be between {1} and {2}")]
-        public int DeptId { get; set; } // FK
+        //[Required]
+        //[Range(1, int.MaxValue, ErrorMessage = @"Valid Department ID must be between {1} and {2}")]
+        public virtual Department Department { get; set; } // NAV
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {1} and {2}")]
-        public int DesignationId { get; set; } // FK
+        //[Required]
+        //[Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {1} and {2}")]
+        public virtual Designation Designation { get; set; } // NAV
+        public virtual ICollection<EmployeeAddress> EmployeeAddresses { get; set; } // NAV
     }
 }

@@ -16,28 +16,32 @@ namespace ModuleAssignment.Repositories
 
         public int NumberOfEmployeesInDepartment(int id)
         {
-            var EmpCount = Context.Departments
-                .Where(dept => dept.Id == id)
-                .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId,
-                        (dept, emp) => new { }
-            ).Count();
+            //var EmpCount = Context.Departments
+            //    .Where(dept => dept.Id == id)
+            //    .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId,
+            //            (dept, emp) => new { }
+            //).Count();
 
-            return EmpCount;
+            //return EmpCount;
+
+            throw new NotImplementedException();
         }
 
 
         public IQueryable NumberOfEmployeesInAllDepartments()
         {
-            var EmpCountDeptList = Context.Departments
-                .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId, (dept, emp) => new { dept, emp })
-                .GroupBy(data => data.dept.DepartmentName)
-                .Select(data => new
-                {
-                    DepartmentName = data.Key,
-                    TotalEmployees = data.Count()
-                });
+            //var EmpCountDeptList = Context.Departments
+            //    .Join(Context.Employees, dept => dept.Id, emp => emp.DeptId, (dept, emp) => new { dept, emp })
+            //    .GroupBy(data => data.dept.DepartmentName)
+            //    .Select(data => new
+            //    {
+            //        DepartmentName = data.Key,
+            //        TotalEmployees = data.Count()
+            //    });
 
-            return EmpCountDeptList;
+            //return EmpCountDeptList;
+
+            throw new NotImplementedException();
         }
 
 
