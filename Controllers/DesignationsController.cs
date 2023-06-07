@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
@@ -12,17 +14,20 @@ namespace ModuleAssignment.Controllers
     public class DesignationsController : ControllerBase
     {
         private readonly IUnitofWork _UnitOfWork;
+        private readonly IMapper _Mapper;
 
-        public DesignationsController(IUnitofWork unitOfWork)
+        public DesignationsController(IUnitofWork unitOfWork, IMapper mapper)
         {
             _UnitOfWork = unitOfWork;
+            _Mapper = mapper;
         }
 
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitOfWork.DesignationRepository.GetAll());
+            var AllDesig = _UnitOfWork.DesignationRepository.GetAll();
+            return Ok(_Mapper.Map<IEnumerable<Designation>, IEnumerable<Designation>>(AllDesig));
         }
 
 
@@ -30,7 +35,8 @@ namespace ModuleAssignment.Controllers
         [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitOfWork.DesignationRepository.GetById(id));
+            var Desig = _UnitOfWork.DesignationRepository.GetById(id);
+            return Ok(_Mapper.Map<Designation>(Desig));
         }
 
 
@@ -46,9 +52,9 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
-        public IActionResult Update(Designation designation)
+        public IActionResult Update(DesignationDTO designation)
         {
-            _UnitOfWork.DesignationRepository.Update(designation);
+            _UnitOfWork.DesignationRepository.Update(_Mapper.Map<Designation>(designation));
             if (_UnitOfWork.Commit() > 0) return Ok(designation);
             else return StatusCode(500);
         }

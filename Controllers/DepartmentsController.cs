@@ -25,7 +25,8 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitofWork.DepartmentRepository.GetAll());
+            var AllDepts = _UnitofWork.DepartmentRepository.GetAll();
+            return Ok(_Mapper.Map<IEnumerable<Department>, IEnumerable<Department>>(AllDepts));
         }
 
 
@@ -34,7 +35,7 @@ namespace ModuleAssignment.Controllers
         public IActionResult GetById(int id)
         {
             Department Dept = _UnitofWork.DepartmentRepository.GetById(id);
-            return Ok(_Mapper.Map<GetDepartment>(Dept));
+            return base.Ok(_Mapper.Map<DepartmentDTO>(Dept));
         }
 
 
@@ -57,7 +58,7 @@ namespace ModuleAssignment.Controllers
         [ArgumentCountFilter]
         public IActionResult Add(Department department)
         {
-            _UnitofWork.DepartmentRepository.Add(_Mapper.Map<Department>(department));
+            _UnitofWork.DepartmentRepository.Add(department);
             if (_UnitofWork.Commit() > 0) return Ok(department);
             else return StatusCode(500);
         }
@@ -65,9 +66,9 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
-        public IActionResult Update(Department department) 
+        public IActionResult Update(DepartmentDTO department) 
         {
-            _UnitofWork.DepartmentRepository.Update(department);
+            _UnitofWork.DepartmentRepository.Update(_Mapper.Map<Department>(department));
             if (_UnitofWork.Commit() > 0) return Ok(department);
             else return StatusCode(500);
         }

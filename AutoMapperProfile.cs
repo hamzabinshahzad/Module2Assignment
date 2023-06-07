@@ -8,8 +8,11 @@ namespace ModuleAssignment
     {
         public AutoMapperProfile() 
         {
-            CreateMap<SetDepartment, Department>();
-            CreateMap<Department, GetDepartment>();
+            CreateMap<Department, DepartmentDTO>().ReverseMap();
+            CreateMap<Designation, DesignationDTO>().ReverseMap();
+            CreateMap<Employee, EmployeeDTO>().ReverseMap();    
+            CreateMap<EmployeeType, EmployeeTypeDTO>().ReverseMap();
+            CreateMap<EmployeeAddress, EmployeeAddressDTO>().ReverseMap();
         }
     }
 }

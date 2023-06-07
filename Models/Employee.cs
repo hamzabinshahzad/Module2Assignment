@@ -1,10 +1,11 @@
-﻿using Microsoft.Identity.Client;
+﻿using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModuleAssignment.Models
 {
     public class Employee
     {
+        [SwaggerSchema(ReadOnly = true)]
         [Key]
         public int Id { get; set; } // PK
 
@@ -56,10 +57,15 @@ namespace ModuleAssignment.Models
         [Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {1} and {2}")]
         public int DesignationId { get; set; }
 
+        [SwaggerSchema(ReadOnly = true)]
         public virtual Employee? ReportsToEmployee { get; set; } // NAV
+        [SwaggerSchema(ReadOnly = true)]
         public virtual EmployeeType? EmployeeType { get; set; } // NAV
+        [SwaggerSchema(ReadOnly = true)]
         public virtual Department? Department { get; set; } // NAV
+        [SwaggerSchema(ReadOnly = true)]
         public virtual Designation? Designation { get; set; } // NAV
+        [SwaggerSchema(ReadOnly = true)]
         public virtual ICollection<EmployeeAddress>? EmployeeAddresses { get; set; } // NAV
     }
 }
