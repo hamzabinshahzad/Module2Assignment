@@ -59,12 +59,16 @@ namespace ModuleAssignment.Models
 
         [SwaggerSchema(ReadOnly = true)]
         public virtual Employee? ReportsToEmployee { get; set; } // NAV
+        
         [SwaggerSchema(ReadOnly = true)]
         public virtual EmployeeType? EmployeeType { get; set; } // NAV
+        
         [SwaggerSchema(ReadOnly = true)]
         public virtual Department? Department { get; set; } // NAV
+        
         [SwaggerSchema(ReadOnly = true)]
         public virtual Designation? Designation { get; set; } // NAV
+        
         [SwaggerSchema(ReadOnly = true)]
         public virtual ICollection<EmployeeAddress>? EmployeeAddresses { get; set; } // NAV
     }
