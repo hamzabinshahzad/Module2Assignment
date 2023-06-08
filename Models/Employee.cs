@@ -71,5 +71,8 @@ namespace ModuleAssignment.Models
         
         [SwaggerSchema(ReadOnly = true)]
         public virtual ICollection<EmployeeAddress>? EmployeeAddresses { get; set; } // NAV
+
+        [SwaggerSchema(ReadOnly = true)]]
+        public virtual ICollection<Credentials>? Credentials { get; set; } // NAV
     }
 }
