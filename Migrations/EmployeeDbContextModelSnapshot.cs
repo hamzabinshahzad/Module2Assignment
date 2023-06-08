@@ -77,7 +77,7 @@ namespace ModuleAssignment.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DesignationId")
+                    b.Property<int>("DesignationIdId")
                         .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
