@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
@@ -12,17 +14,20 @@ namespace ModuleAssignment.Controllers
     public class EmployeeAddressesController : ControllerBase
     {
         private readonly IUnitofWork _UnitOfWork;
+        private readonly IMapper _Mapper;
 
-        public EmployeeAddressesController(IUnitofWork unitofWork)
+        public EmployeeAddressesController(IUnitofWork unitofWork, IMapper mapper)
         {
             _UnitOfWork = unitofWork;
+            _Mapper = mapper;
         }
 
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_UnitOfWork.EmployeeAddressRepository.GetAll());
+            var AllAddresses = _UnitOfWork.EmployeeAddressRepository.GetAll();
+            return Ok(_Mapper.Map<IEnumerable<EmployeeAddress>, IEnumerable<EmployeeAddressDTO>>(AllAddresses));
         }
 
 
@@ -30,7 +35,8 @@ namespace ModuleAssignment.Controllers
         [ArgumentCountFilter]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitOfWork.EmployeeAddressRepository.GetById(id));
+            EmployeeAddress EmpAddr = _UnitOfWork.EmployeeAddressRepository.GetById(id);
+            return Ok(_Mapper.Map<EmployeeAddress>(EmpAddr));
         }
 
 
@@ -46,9 +52,9 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
-        public IActionResult Update(EmployeeAddress address)
+        public IActionResult Update(EmployeeAddressDTO address)
         {
-            _UnitOfWork.EmployeeAddressRepository.Update(address);
+            _UnitOfWork.EmployeeAddressRepository.Update(_Mapper.Map<EmployeeAddress>(address));
             if (_UnitOfWork.Commit() > 0) return Ok(address);
             else return StatusCode(500);
         }

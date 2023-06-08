@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModuleAssignment.Models
 {
     public class EmployeeAddress
     {
+        [SwaggerSchema(ReadOnly = true)]
         [Key]
         public int Id { get; set; } // PK
 
@@ -28,6 +30,9 @@ namespace ModuleAssignment.Models
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = @"Employee ID must be between {1} and {2}")]
-        public int EmployeeId { get; set; } // FK
+        public int EmployeeId { get; set; }
+
+        [SwaggerSchema(ReadOnly = true)]
+        public virtual Employee? Employee { get; set; } // NAV
     }
 }
