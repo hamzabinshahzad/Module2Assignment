@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ModuleAssignment.Migrations
 {
     /// <inheritdoc />
-    public partial class plzwork : Migration
+    public partial class CredentialEntityadded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,6 +97,28 @@ namespace ModuleAssignment.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Credentials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credentials", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Credentials_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeAddresses",
                 columns: table => new
                 {
@@ -118,6 +140,11 @@ namespace ModuleAssignment.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Credentials_EmployeeId",
+                table: "Credentials",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeAddresses_EmployeeId",
@@ -148,6 +175,9 @@ namespace ModuleAssignment.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Credentials");
+
             migrationBuilder.DropTable(
                 name: "EmployeeAddresses");
 

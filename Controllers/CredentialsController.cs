@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Microsoft.IdentityModel.Tokens;
 using ModuleAssignment.Services;
+using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace ModuleAssignment.Controllers
 {
@@ -8,6 +13,31 @@ namespace ModuleAssignment.Controllers
     public class CredentialsController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
+        private readonly IConfiguration _Config;
+
+        public CredentialsController(IUnitofWork unitofwork, IConfiguration config)
+        {
+            _UnitofWork = unitofwork;
+            _Config = config;
+        }
+
+
+        private string GenerateToken(Credential credential) 
+        {
+            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Config["JwtSettings:Key"]));
+            var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var NewToken = new JwtSecurityToken(
+                _Config["JwtSettings:Issuer"],
+                _Config["JwtSettings:Audience"],
+                null,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(NewToken);
+        }
+
 
 
         [HttpGet]

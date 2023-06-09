@@ -2,7 +2,7 @@
 
 namespace ModuleAssignment.Models
 {
-    public class Credentials
+    public class Credential
     {
         [Key]
         public int Id { get; set; }

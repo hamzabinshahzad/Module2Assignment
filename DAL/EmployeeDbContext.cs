@@ -12,6 +12,6 @@ namespace ModuleAssignment.Data
         public DbSet<EmployeeType> EmployeeTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
-        public DbSet<Credentials> Credentials { get; set; }
+        public DbSet<Credential> Credentials { get; set; }
     }
 }

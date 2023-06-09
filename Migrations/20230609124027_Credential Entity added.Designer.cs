@@ -12,8 +12,8 @@ using ModuleAssignment.Data;
 namespace ModuleAssignment.Migrations
 {
     [DbContext(typeof(EmployeeDbContext))]
-    [Migration("20230606114851_plz work")]
-    partial class plzwork
+    [Migration("20230609124027_Credential Entity added")]
+    partial class CredentialEntityadded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace ModuleAssignment.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ModuleAssignment.Models.Credential", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Credentials");
+                });
 
             modelBuilder.Entity("ModuleAssignment.Models.Department", b =>
                 {
@@ -179,6 +209,17 @@ namespace ModuleAssignment.Migrations
                     b.ToTable("EmployeeTypes");
                 });
 
+            modelBuilder.Entity("ModuleAssignment.Models.Credential", b =>
+                {
+                    b.HasOne("ModuleAssignment.Models.Employee", "Employee")
+                        .WithMany("Credentials")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("ModuleAssignment.Models.Employee", b =>
                 {
                     b.HasOne("ModuleAssignment.Models.Department", "Department")
@@ -237,6 +278,8 @@ namespace ModuleAssignment.Migrations
 
             modelBuilder.Entity("ModuleAssignment.Models.Employee", b =>
                 {
+                    b.Navigation("Credentials");
+
                     b.Navigation("EmployeeAddresses");
                 });
 
