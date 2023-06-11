@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Microsoft.IdentityModel.Tokens;
+using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.CompilerServices;
@@ -10,19 +12,19 @@ namespace ModuleAssignment.Controllers
 {
     [Route("api/authentication/[action]")]
     [ApiController]
-    public class CredentialsController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
         private readonly IConfiguration _Config;
 
-        public CredentialsController(IUnitofWork unitofwork, IConfiguration config)
+        public AuthenticationController(IUnitofWork unitofwork, IConfiguration config)
         {
             _UnitofWork = unitofwork;
             _Config = config;
         }
 
 
-        private string GenerateToken(Credential credential) 
+        private string GenerateToken(Models.Credential credential) 
         {
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Config["JwtSettings:Key"]));
             var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
@@ -38,6 +40,27 @@ namespace ModuleAssignment.Controllers
             return new JwtSecurityTokenHandler().WriteToken(NewToken);
         }
 
+
+        [HttpPost]
+        [ArgumentCountFilter]
+        [AllowAnonymous]
+        public IActionResult SignIn(Models.Credential credential)
+        {
+            if (credential.Username == "admin" && credential.Password == "admin")
+            {
+                return Ok(new { token = GenerateToken(credential) });
+            }
+            else return StatusCode(403, "Invalid username or password!");
+        }
+
+
+        // FOR TESTING ONLY
+        [HttpGet]
+        [Authorize]
+        public IActionResult Test()
+        {
+            return Ok("This now works because the token was provided in request HEADER!");
+        }
 
 
         [HttpGet]
