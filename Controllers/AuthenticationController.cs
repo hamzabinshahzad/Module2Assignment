@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using Microsoft.IdentityModel.Tokens;
+using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
+using ModuleAssignment.Filters.AuthorizationFilters;
+using ModuleAssignment.Models;
 using ModuleAssignment.Services;
-using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
-using System.Text;
+using System.Security.Claims;
 
 namespace ModuleAssignment.Controllers
 {
@@ -15,41 +15,22 @@ namespace ModuleAssignment.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
-        private readonly IConfiguration _Config;
+        private readonly IMapper _Mapper;
 
-        public AuthenticationController(IUnitofWork unitofwork, IConfiguration config)
+        public AuthenticationController(IUnitofWork unitofwork, IMapper mapper)
         {
             _UnitofWork = unitofwork;
-            _Config = config;
-        }
-
-
-        private string GenerateToken(Models.Credential credential) 
-        {
-            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Config["JwtSettings:Key"]));
-            var credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
-
-            var NewToken = new JwtSecurityToken(
-                _Config["JwtSettings:Issuer"],
-                _Config["JwtSettings:Audience"],
-                null,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: credentials
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(NewToken);
+            _Mapper = mapper;
         }
 
 
         [HttpPost]
         [ArgumentCountFilter]
         [AllowAnonymous]
-        public IActionResult SignIn(Models.Credential credential)
+        public IActionResult SignIn(CredentialDTO credential)
         {
-            if (credential.Username == "admin" && credential.Password == "admin")
-            {
-                return Ok(new { token = GenerateToken(credential) });
-            }
+            var ReqCred = _UnitofWork.CredentialRepository.CheckCredentials(_Mapper.Map<Credential>(credential));
+            if (ReqCred != null) return Ok(new { token = _UnitofWork.CredentialRepository.GenerateToken(ReqCred) });
             else return StatusCode(403, "Invalid username or password!");
         }
 
@@ -64,13 +45,30 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [Authorize]
+        [SelfModificationFilter]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.CredentialRepository.GetById(id));
+            var Identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (Identity != null)
+            {
+                var test = Identity.FindFirst("role").Value;
+                if (Identity.FindFirst("role").Value == "user" && Identity.FindFirst("empid").Value == id.ToString())
+                {
+                    return Ok(_UnitofWork.CredentialRepository.GetById(id));
+                }
+                else if (Identity.FindFirst("role").Value == "admin")
+                {
+                    return Ok(_UnitofWork.CredentialRepository.GetById(id));
+                }
+                else return BadRequest("Access on your credentials are forbidened");
+            }
+            else return StatusCode(401);
         }
 
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAll()
         {
             return Ok(_UnitofWork.CredentialRepository.GetAll());
@@ -78,7 +76,8 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPost]
-        public IActionResult Add(Models.Credential credential)
+        [Authorize(Roles = "admin")]
+        public IActionResult Add(Credential credential)
         {
             _UnitofWork.CredentialRepository.Add(credential);
             if (_UnitofWork.Commit() > 0) return Ok(credential);
@@ -87,7 +86,8 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPut]
-        public IActionResult Update(Models.Credential credential)
+        [Authorize(Roles = "admin")]
+        public IActionResult Update(Credential credential)
         {
             _UnitofWork.CredentialRepository.Update(credential);
             if(_UnitofWork.Commit() > 0) return Ok(credential);
@@ -96,6 +96,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         public IActionResult Remove(int id)
         {
             _UnitofWork.CredentialRepository.Delete(id);

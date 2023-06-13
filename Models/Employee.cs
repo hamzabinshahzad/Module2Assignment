@@ -57,8 +57,8 @@ namespace ModuleAssignment.Models
         [Range(1, int.MaxValue, ErrorMessage = @"Valid Designation ID must be between {1} and {2}")]
         public int DesignationId { get; set; }
 
-        [SwaggerSchema(ReadOnly = true)]
-        public virtual Employee? ReportsToEmployee { get; set; } // NAV
+        //[SwaggerSchema(ReadOnly = true)]
+        //public virtual Employee? ReportsToEmployee { get; set; } // NAV
         
         [SwaggerSchema(ReadOnly = true)]
         public virtual EmployeeType? EmployeeType { get; set; } // NAV

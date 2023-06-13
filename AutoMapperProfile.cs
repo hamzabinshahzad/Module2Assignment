@@ -13,6 +13,7 @@ namespace ModuleAssignment
             CreateMap<Employee, EmployeeDTO>().ReverseMap();    
             CreateMap<EmployeeType, EmployeeTypeDTO>().ReverseMap();
             CreateMap<EmployeeAddress, EmployeeAddressDTO>().ReverseMap();
+            CreateMap<Credential, CredentialDTO>().ReverseMap();
         }
     }
 }

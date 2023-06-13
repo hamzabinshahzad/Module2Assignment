@@ -49,7 +49,7 @@ builder.Services.AddScoped<IGenericRepository<EmployeeAddress>, GenericRepositor
 builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<EmployeeType>>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
-builder.Services.AddScoped<IGenericRepository<Credential>, GenericRepository<Credential>>();
+builder.Services.AddScoped<ICredentialRepository, CredentialRepository>();
 
 
 // DbContext

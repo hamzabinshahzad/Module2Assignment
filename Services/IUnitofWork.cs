@@ -10,7 +10,7 @@ namespace ModuleAssignment.Services
         IGenericRepository<EmployeeType> EmployeeTypeRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
         IGenericRepository<Designation> DesignationRepository { get; }
-        IGenericRepository<Credential> CredentialRepository { get; }
+        ICredentialRepository CredentialRepository { get; }
 
         int Commit();
     }

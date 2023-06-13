@@ -16,14 +16,14 @@ namespace ModuleAssignment.Services
         public IGenericRepository<EmployeeType> EmployeeTypeRepository { get; private set; }
         public IDepartmentRepository DepartmentRepository { get; private set; }
         public IGenericRepository<Designation> DesignationRepository { get; private set; }
-        public IGenericRepository<Credential> CredentialRepository { get; private set; }
+        public ICredentialRepository CredentialRepository { get; private set; }
 
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
             IEmployeeRepository employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
             IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
-            IGenericRepository<Designation> designationRepository, IGenericRepository<Credential> credentialRepository
+            IGenericRepository<Designation> designationRepository, ICredentialRepository credentialRepository
         )
         {
             Context = IncomingContext;
