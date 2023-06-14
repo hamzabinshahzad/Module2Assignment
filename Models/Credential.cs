@@ -19,6 +19,6 @@ namespace ModuleAssignment.Models
         [Required]
         public int EmployeeId { get; set; }
 
-        public virtual Employee? Employee { get; set; }
+        public virtual Employee? Employee { get; set; } // NAV
     }
 }

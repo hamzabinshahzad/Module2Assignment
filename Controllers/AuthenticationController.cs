@@ -6,7 +6,6 @@ using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Filters.AuthorizationFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
-using System.Security.Claims;
 
 namespace ModuleAssignment.Controllers
 {
@@ -45,25 +44,12 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [ArgumentCountFilter]
         [Authorize]
-        [SelfModificationFilter]
+        [SelfAccessFilter("user")]
         public IActionResult GetById(int id)
         {
-            var Identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (Identity != null)
-            {
-                var test = Identity.FindFirst("role").Value;
-                if (Identity.FindFirst("role").Value == "user" && Identity.FindFirst("empid").Value == id.ToString())
-                {
-                    return Ok(_UnitofWork.CredentialRepository.GetById(id));
-                }
-                else if (Identity.FindFirst("role").Value == "admin")
-                {
-                    return Ok(_UnitofWork.CredentialRepository.GetById(id));
-                }
-                else return BadRequest("Access on your credentials are forbidened");
-            }
-            else return StatusCode(401);
+            return Ok(_UnitofWork.CredentialRepository.GetById(id));
         }
 
 
@@ -76,6 +62,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPost]
+        [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
         public IActionResult Add(Credential credential)
         {
@@ -86,6 +73,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpPut]
+        [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
         public IActionResult Update(Credential credential)
         {
@@ -96,6 +84,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpDelete]
+        [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
         public IActionResult Remove(int id)
         {
