@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
-using ModuleAssignment.Filters.AuthorizationFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
 
@@ -45,8 +44,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
-        [Authorize]
-        [SelfAccessFilter("user")]
+        [Authorize(Roles = "user")]
         public IActionResult GetById(int id)
         {
             return Ok(_UnitofWork.CredentialRepository.GetById(id));

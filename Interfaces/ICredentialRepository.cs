@@ -6,5 +6,6 @@ namespace ModuleAssignment.Interfaces
     {
         public string GenerateToken(Credential credential);
         public Credential CheckCredentials(Credential credential);
+        //public int GetCredentialEmpId(int credentialId);
     }
 }

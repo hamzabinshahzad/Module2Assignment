@@ -54,5 +54,13 @@ namespace ModuleAssignment.Repositories
         }
 
 
+        //public int GetCredentialEmpId(int credentialId)
+        //{
+        //    Credential? ReqCred = Context.Credentials.FirstOrDefault(cred => cred.Id == credentialId);
+        //    if (ReqCred != null) return ReqCred.EmployeeId;
+        //    else return -1;
+        //}
+
+
     }
 }
