@@ -6,10 +6,12 @@ using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
 
+
 namespace ModuleAssignment.Controllers
 {
     [Route("api/authentication/[action]")]
     [ApiController]
+    [Authorize]
     public class AuthenticationController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
@@ -25,29 +27,50 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [AllowAnonymous]
-        public IActionResult SignIn(CredentialDTO credential)
+        public IActionResult SignIn(SignInDTO credential)
         {
             var ReqCred = _UnitofWork.CredentialRepository.CheckCredentials(_Mapper.Map<Credential>(credential));
-            if (ReqCred != null) return Ok(new { token = _UnitofWork.CredentialRepository.GenerateToken(ReqCred) });
+            if (ReqCred != null) return Ok(_UnitofWork.CredentialRepository.GenerateToken(ReqCred));
             else return StatusCode(403, "Invalid username or password!");
         }
 
 
-        // FOR TESTING ONLY
         [HttpGet]
-        [Authorize]
-        public IActionResult Test()
+        public IActionResult GetSelf()
         {
-            return Ok("This now works because the token was provided in request HEADER!");
+            var User = HttpContext.User;
+            string Id = User.FindFirst("id").Value;
+            if (Id != null) return Ok(_UnitofWork.CredentialRepository.GetById(int.Parse(Id)));
+            else return StatusCode(403, "Access Denied.");
+        }
+
+
+        [HttpPost]
+        [ArgumentCountFilter]
+        public IActionResult PasswordUpdate(PasswordDTO dto)
+        {
+            var User = HttpContext.User;
+            string Id = User.FindFirst("id").Value;
+            if (Id != null)
+            {
+                if (_UnitofWork.CredentialRepository.ReplacePassword(int.Parse(Id), dto.Password))
+                {
+                    if (_UnitofWork.Commit() > 0) return Ok("Password updated successfully.");
+                    else return StatusCode(500);
+                }
+                else return StatusCode(400);
+            }
+            else return StatusCode(403, "Access Denied");
         }
 
 
         [HttpGet]
         [ArgumentCountFilter]
-        [Authorize(Roles = "user")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetById(int id)
         {
-            return Ok(_UnitofWork.CredentialRepository.GetById(id));
+            Credential Cred = _UnitofWork.CredentialRepository.GetById(id);
+            return Ok(_Mapper.Map<CredentialDTO>(Cred));
         }
 
 
@@ -55,7 +78,8 @@ namespace ModuleAssignment.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult GetAll()
         {
-            return Ok(_UnitofWork.CredentialRepository.GetAll());
+            var AllCreds = _UnitofWork.CredentialRepository.GetAll();
+            return Ok(_Mapper.Map<IEnumerable<Credential>, IEnumerable<CredentialDTO>>(AllCreds));
         }
 
 
@@ -73,9 +97,9 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Update(Credential credential)
+        public IActionResult Update(CredentialDTO credential)
         {
-            _UnitofWork.CredentialRepository.Update(credential);
+            _UnitofWork.CredentialRepository.Update(_Mapper.Map<Credential>(credential));
             if(_UnitofWork.Commit() > 0) return Ok(credential);
             else return StatusCode(500);
         }

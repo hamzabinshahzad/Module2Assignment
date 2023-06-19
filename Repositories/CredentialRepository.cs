@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
@@ -28,9 +27,8 @@ namespace ModuleAssignment.Repositories
 
             var Claims = new List<Claim>
             {
+                new Claim("id", credential.Id.ToString()),
                 new Claim("empid", credential.EmployeeId.ToString()),
-                // Need deciding about using one type of role claim:
-                //new Claim(ClaimTypes.Role, credential.Role),
                 new Claim("role", credential.Role)
             };
 
@@ -54,12 +52,16 @@ namespace ModuleAssignment.Repositories
         }
 
 
-        //public int GetCredentialEmpId(int credentialId)
-        //{
-        //    Credential? ReqCred = Context.Credentials.FirstOrDefault(cred => cred.Id == credentialId);
-        //    if (ReqCred != null) return ReqCred.EmployeeId;
-        //    else return -1;
-        //}
+        public bool ReplacePassword(int id, string newPassword)
+        {
+            Credential? Cred = Context.Credentials.FirstOrDefault(cred => cred.Id == id);
+            if (Cred != null)
+            {
+                Cred.Password = newPassword;
+                return true;
+            }
+            else return false;
+        }
 
 
     }

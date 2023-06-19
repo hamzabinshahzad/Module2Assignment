@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
-using ModuleAssignment.Repositories;
 using ModuleAssignment.Services;
 
 namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class EmployeesController : ControllerBase
     {
         private readonly IUnitofWork _UnitOfWork;
@@ -24,6 +24,15 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetAllEmployeeNames()
+        {
+            return Ok(_UnitOfWork.EmployeeRepository.GetAllEmployeeNames());   
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAll()
         {
             var AllEmps = _UnitOfWork.EmployeeRepository.GetAll();
@@ -33,6 +42,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult GetById(int id)
         {
             Employee Emp = _UnitOfWork.EmployeeRepository.GetById(id);
@@ -42,6 +52,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult GetDetailsById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsById(id));   
@@ -50,6 +61,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult GetEmployeeAddressById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetAddressById(id));
@@ -58,6 +70,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult GetEmployeeDetailsByEmail(string emailAddress)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsByEmail(emailAddress));
@@ -66,6 +79,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Add(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Add(employee);
@@ -76,6 +90,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Update(EmployeeDTO employee)
         {
             _UnitOfWork.EmployeeRepository.Update(_Mapper.Map<Employee>(employee));
@@ -86,6 +101,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpDelete]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Remove(int id) 
         {
             _UnitOfWork.EmployeeRepository.Delete(id);

@@ -132,6 +132,9 @@ namespace ModuleAssignment.Repositories
             return Emp;
         }
 
-
+        public IEnumerable<string> GetAllEmployeeNames()
+        {
+            return Context.Employees.Select(emp => emp.FullName).ToList();
+        }
     }
 }
