@@ -6,6 +6,7 @@ using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
 
+
 namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
@@ -28,6 +29,42 @@ namespace ModuleAssignment.Controllers
         public IActionResult GetAllEmployeeNames()
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetAllEmployeeNames());   
+        }
+
+
+        [HttpGet]
+        public IActionResult GetSelf()
+        {
+            var Claim = HttpContext.User.FindFirst("empid");
+            if (Claim != null) return Ok(_UnitOfWork.EmployeeRepository.GetById(int.Parse(Claim.Value)));
+            else return BadRequest();
+        }
+
+
+        [HttpGet]
+        public IActionResult GetSelfDetails()
+        {
+            var Claim = HttpContext.User.FindFirst("empid");
+            if (Claim != null) return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsById(int.Parse(Claim.Value)));
+            else return BadRequest();
+        }
+
+
+        [HttpGet]
+        public IActionResult GetSelfAddress()
+        {
+            var Claim = HttpContext.User.FindFirst("empid");
+            if (Claim != null) return Ok(_UnitOfWork.EmployeeRepository.GetAddressById(int.Parse(Claim.Value)));
+            else return BadRequest();
+        }
+
+
+        [HttpGet]
+        public IActionResult GetSelfContactDetails()
+        {
+            var Claim = HttpContext.User.FindFirst("empid");
+            if (Claim != null) return Ok(_UnitOfWork.EmployeeRepository.GetContactDetailsById(int.Parse(Claim.Value)));
+            else return BadRequest();
         }
 
 
@@ -62,7 +99,7 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult GetEmployeeAddressById(int id)
+        public IActionResult GetAddressById(int id)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetAddressById(id));
         }
@@ -71,7 +108,16 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult GetEmployeeDetailsByEmail(string emailAddress)
+        public IActionResult GetContactDetailsById(int id)
+        {
+            return Ok(_UnitOfWork.EmployeeRepository.GetContactDetailsById(id));
+        }
+
+
+        [HttpGet]
+        [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetDetailsByEmail(string emailAddress)
         {
             return Ok(_UnitOfWork.EmployeeRepository.GetEmployeeDetailsByEmail(emailAddress));
         }

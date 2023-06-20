@@ -132,9 +132,29 @@ namespace ModuleAssignment.Repositories
             return Emp;
         }
 
+
         public IEnumerable<string> GetAllEmployeeNames()
         {
             return Context.Employees.Select(emp => emp.FullName).ToList();
         }
+
+
+        public IQueryable GetContactDetailsById(int id)
+        {
+            var EmpContactDetails = Context.Employees
+                .Where(emp => emp.Id == id)
+                .Include("EmployeeAddresses")
+                .Select(empContact => new
+                {
+                    EmployeeName = empContact.FullName,
+                    empContact.EmailAddress,
+                    empContact.Mobile,
+                    Addresses = empContact.EmployeeAddresses,
+                });
+
+            return EmpContactDetails;
+        }
+
+
     }
 }

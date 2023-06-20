@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
@@ -10,6 +10,7 @@ namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class EmployeeTypesController : ControllerBase
     {
         private readonly IUnitofWork _UnitOfWork;
@@ -23,6 +24,7 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAll()
         {
             var AllEmpTypes = _UnitOfWork.EmployeeTypeRepository.GetAll();
@@ -41,6 +43,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Add(EmployeeType employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Add(employeeType);
@@ -51,6 +54,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Update(EmployeeTypeDTO employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Update(_Mapper.Map<EmployeeType>(employeeType));
@@ -61,6 +65,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpDelete]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Remove(int id)
         {
             _UnitOfWork.EmployeeTypeRepository.Delete(id);

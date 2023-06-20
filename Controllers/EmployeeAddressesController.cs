@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
 using ModuleAssignment.Models;
 using ModuleAssignment.Services;
-using System.Net;
+
 
 namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class EmployeeAddressesController : ControllerBase
     {
         private readonly IUnitofWork _UnitOfWork;
@@ -24,6 +25,25 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        public IActionResult GetSelf()
+        {
+            var Claim = HttpContext.User.FindFirst("empid");
+            if(Claim != null) return Ok(_UnitOfWork.EmployeeAddressRepository.GetAddressesByEmpId(int.Parse(Claim.Value)));
+            else return BadRequest();
+        }
+
+
+        [HttpGet]
+        [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
+        public IActionResult GetByEmployeeId(int employeeId) 
+        {
+            return Ok(_UnitOfWork.EmployeeAddressRepository.GetAddressesByEmpId(employeeId));
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAll()
         {
             var AllAddresses = _UnitOfWork.EmployeeAddressRepository.GetAll();
@@ -33,6 +53,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpGet]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult GetById(int id)
         {
             EmployeeAddress EmpAddr = _UnitOfWork.EmployeeAddressRepository.GetById(id);
@@ -42,6 +63,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Add(EmployeeAddress address)
         {
             _UnitOfWork.EmployeeAddressRepository.Add(address);
@@ -52,6 +74,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpPut]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Update(EmployeeAddressDTO address)
         {
             _UnitOfWork.EmployeeAddressRepository.Update(_Mapper.Map<EmployeeAddress>(address));
@@ -62,6 +85,7 @@ namespace ModuleAssignment.Controllers
 
         [HttpDelete]
         [ArgumentCountFilter]
+        [Authorize(Roles = "admin")]
         public IActionResult Remove(int id)
         {
             _UnitOfWork.EmployeeAddressRepository.Delete(id);

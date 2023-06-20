@@ -8,6 +8,8 @@ namespace ModuleAssignment.Interfaces
 
         IQueryable GetAddressById(int id);
 
+        IQueryable GetContactDetailsById(int id);
+
         IQueryable GetEmployeeDetailsByEmail(string emailAddress);
 
         IEnumerable<string> GetAllEmployeeNames();

@@ -12,7 +12,7 @@ namespace ModuleAssignment.Services
 
 
         public IEmployeeRepository EmployeeRepository { get; private set; }
-        public IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; private set; }
+        public IEmployeeAddressRepository EmployeeAddressRepository { get; private set; }
         public IGenericRepository<EmployeeType> EmployeeTypeRepository { get; private set; }
         public IDepartmentRepository DepartmentRepository { get; private set; }
         public IGenericRepository<Designation> DesignationRepository { get; private set; }
@@ -21,7 +21,7 @@ namespace ModuleAssignment.Services
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
-            IEmployeeRepository employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
+            IEmployeeRepository employeeRepository, IEmployeeAddressRepository employeeAddressRepository,
             IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
             IGenericRepository<Designation> designationRepository, ICredentialRepository credentialRepository
         )

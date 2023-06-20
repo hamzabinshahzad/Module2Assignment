@@ -9,7 +9,7 @@ using ModuleAssignment.Services;
 
 namespace ModuleAssignment.Controllers
 {
-    [Route("api/authentication/[action]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     [Authorize]
     public class AuthenticationController : ControllerBase
