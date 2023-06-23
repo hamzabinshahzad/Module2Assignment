@@ -36,11 +36,11 @@ namespace ModuleAssignment.Services
         }
 
 
-        public int Commit()
+        public async Task<int> CommitAsync()
         {
             try
             { 
-                int entries = Context.SaveChanges();
+                int entries = await Context.SaveChangesAsync();
                 Console.WriteLine($"DB_IO: Entries written: {entries}");
                 return entries;
             }
@@ -52,6 +52,11 @@ namespace ModuleAssignment.Services
             catch(DBConcurrencyException e)
             {
                 Console.WriteLine($"ERROR: Unable to perform CRUD in DB => {e.Message}");
+                return 0;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"ERROR: {e.Message}");
                 return 0;
             }
         }

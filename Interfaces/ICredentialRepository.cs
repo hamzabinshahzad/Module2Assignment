@@ -7,5 +7,6 @@ namespace ModuleAssignment.Interfaces
         public string GenerateToken(Credential credential);
         public Credential CheckCredentials(Credential credential);
         public bool ReplacePassword(int id, string newPassword);
+        public bool UsernameExists(string username);
     }
 }

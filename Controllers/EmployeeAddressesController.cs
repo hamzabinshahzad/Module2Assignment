@@ -64,10 +64,11 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Add(EmployeeAddress address)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(EmployeeAddress address)
         {
             _UnitOfWork.EmployeeAddressRepository.Add(address);
-            if (_UnitOfWork.Commit() > 0) return Ok(address);
+            if (await _UnitOfWork.CommitAsync() > 0) return Ok(address);
             else return StatusCode(500);
         }
 
@@ -75,10 +76,11 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Update(EmployeeAddressDTO address)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(EmployeeAddressDTO address)
         {
             _UnitOfWork.EmployeeAddressRepository.Update(_Mapper.Map<EmployeeAddress>(address));
-            if (_UnitOfWork.Commit() > 0) return Ok(address);
+            if (await _UnitOfWork.CommitAsync() > 0) return Ok(address);
             else return StatusCode(500);
         }
 
@@ -86,10 +88,11 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Remove(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int id)
         {
             _UnitOfWork.EmployeeAddressRepository.Delete(id);
-            if (_UnitOfWork.Commit() > 0) return Ok($"Address with id: {id} has been deleted successfully!");
+            if (await _UnitOfWork.CommitAsync() > 0) return Ok($"Address with id: {id} has been deleted successfully!");
             else return StatusCode(500);
         }
 

@@ -44,10 +44,11 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Add(EmployeeType employeeType)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(EmployeeType employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Add(employeeType);
-            if (_UnitOfWork.Commit() > 0) return Ok(employeeType);
+            if (await _UnitOfWork.CommitAsync() > 0) return Ok(employeeType);
             else return StatusCode(500);
         }
 
@@ -55,10 +56,11 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Update(EmployeeTypeDTO employeeType)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(EmployeeTypeDTO employeeType)
         {
             _UnitOfWork.EmployeeTypeRepository.Update(_Mapper.Map<EmployeeType>(employeeType));
-            if (_UnitOfWork.Commit() > 0) return Ok(employeeType);
+            if (await _UnitOfWork.CommitAsync() > 0) return Ok(employeeType);
             else return StatusCode(500);
         }
 
@@ -66,10 +68,11 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Remove(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int id)
         {
             _UnitOfWork.EmployeeTypeRepository.Delete(id);
-            if(_UnitOfWork.Commit() > 0) return Ok($"Employee Type with id: {id} has been deleted successfully.");
+            if(await _UnitOfWork.CommitAsync() > 0) return Ok($"Employee Type with id: {id} has been deleted successfully.");
             else return StatusCode(500);
         }
 

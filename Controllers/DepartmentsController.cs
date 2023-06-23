@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModuleAssignment.DTOs;
 using ModuleAssignment.Filters.ActionFilters;
@@ -10,6 +10,7 @@ namespace ModuleAssignment.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class DepartmentsController : ControllerBase
     {
         private readonly IUnitofWork _UnitofWork;
@@ -23,10 +24,11 @@ namespace ModuleAssignment.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetAll()
         {
             var AllDepts = _UnitofWork.DepartmentRepository.GetAll();
-            return Ok(_Mapper.Map<IEnumerable<Department>, IEnumerable<Department>>(AllDepts));
+            return Ok(_Mapper.Map<IEnumerable<Department>, IEnumerable<DepartmentDTO>>(AllDepts));
         }
 
 
@@ -56,30 +58,36 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
-        public IActionResult Add(Department department)
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Department department)
         {
             _UnitofWork.DepartmentRepository.Add(department);
-            if (_UnitofWork.Commit() > 0) return Ok(department);
+            if (await _UnitofWork.CommitAsync() > 0) return Ok(department);
             else return StatusCode(500);
         }
 
 
         [HttpPut]
         [ArgumentCountFilter]
-        public IActionResult Update(DepartmentDTO department) 
+        [Authorize(Roles = "admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(DepartmentDTO department) 
         {
             _UnitofWork.DepartmentRepository.Update(_Mapper.Map<Department>(department));
-            if (_UnitofWork.Commit() > 0) return Ok(department);
+            if (await _UnitofWork.CommitAsync() > 0) return Ok(department);
             else return StatusCode(500);
         }
 
 
         [HttpDelete]
         [ArgumentCountFilter]
-        public IActionResult Remove(int id)
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Remove(int id)
         {
             _UnitofWork.DepartmentRepository.Delete(id);
-            if (_UnitofWork.Commit() > 0) return Ok($"Department with id: {id} has been deleted successfully!");
+            if (await _UnitofWork.CommitAsync() > 0) return Ok($"Department with id: {id} has been deleted successfully!");
             else return StatusCode(500);
         }
 

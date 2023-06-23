@@ -38,8 +38,7 @@ namespace ModuleAssignment.Controllers
         [HttpGet]
         public IActionResult GetSelf()
         {
-            var User = HttpContext.User;
-            string Id = User.FindFirst("id").Value;
+            string Id = HttpContext.User.FindFirst("id").Value;
             if (Id != null) return Ok(_UnitofWork.CredentialRepository.GetById(int.Parse(Id)));
             else return StatusCode(403, "Access Denied.");
         }
@@ -47,7 +46,8 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
-        public IActionResult PasswordUpdate(PasswordDTO dto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PasswordUpdate(PasswordDTO dto)
         {
             var User = HttpContext.User;
             string Id = User.FindFirst("id").Value;
@@ -55,7 +55,7 @@ namespace ModuleAssignment.Controllers
             {
                 if (_UnitofWork.CredentialRepository.ReplacePassword(int.Parse(Id), dto.Password))
                 {
-                    if (_UnitofWork.Commit() > 0) return Ok("Password updated successfully.");
+                    if (await _UnitofWork.CommitAsync() > 0) return Ok("Password updated successfully.");
                     else return StatusCode(500);
                 }
                 else return StatusCode(400);
@@ -86,21 +86,27 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Add(Credential credential)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Credential credential)
         {
-            _UnitofWork.CredentialRepository.Add(credential);
-            if (_UnitofWork.Commit() > 0) return Ok(credential);
-            else return StatusCode(500);
+            if (!_UnitofWork.CredentialRepository.UsernameExists(credential.Username))
+            {
+                _UnitofWork.CredentialRepository.Add(credential);
+                if (await _UnitofWork.CommitAsync() > 0) return Ok(credential);
+                else return StatusCode(500);
+            }
+            else return BadRequest("Please provide a different username!");
         }
 
 
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Update(CredentialDTO credential)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(CredentialDTO credential)
         {
             _UnitofWork.CredentialRepository.Update(_Mapper.Map<Credential>(credential));
-            if(_UnitofWork.Commit() > 0) return Ok(credential);
+            if(await _UnitofWork.CommitAsync() > 0) return Ok(credential);
             else return StatusCode(500);
         }
 
@@ -108,10 +114,11 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        public IActionResult Remove(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Remove(int id)
         {
             _UnitofWork.CredentialRepository.Delete(id);
-            if (_UnitofWork.Commit() > 0) return Ok($"Credential with id: {id} has been deleted successfully!");
+            if (await _UnitofWork.CommitAsync() > 0) return Ok($"Credential with id: {id} has been deleted successfully!");
             else return StatusCode(500);
         }
     

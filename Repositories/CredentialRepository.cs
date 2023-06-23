@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ModuleAssignment.Data;
 using ModuleAssignment.Interfaces;
 using ModuleAssignment.Models;
@@ -61,6 +62,13 @@ namespace ModuleAssignment.Repositories
                 Cred.Password = newPassword;
                 return true;
             }
+            else return false;
+        }
+
+
+        public bool UsernameExists(string username)
+        {
+            if (Context.Credentials.FirstOrDefaultAsync(cred => cred.Username == username) != null) return true;
             else return false;
         }
 
