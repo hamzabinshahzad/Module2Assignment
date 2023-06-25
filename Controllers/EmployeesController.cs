@@ -126,7 +126,6 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Employee employee)
         {
             _UnitOfWork.EmployeeRepository.Add(employee);
@@ -138,7 +137,6 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(EmployeeDTO employee)
         {
             _UnitOfWork.EmployeeRepository.Update(_Mapper.Map<Employee>(employee));
@@ -150,7 +148,6 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(int id) 
         {
             _UnitOfWork.EmployeeRepository.Delete(id);

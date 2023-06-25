@@ -59,7 +59,6 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Department department)
         {
             _UnitofWork.DepartmentRepository.Add(department);
@@ -71,7 +70,6 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(DepartmentDTO department) 
         {
             _UnitofWork.DepartmentRepository.Update(_Mapper.Map<Department>(department));
@@ -82,7 +80,6 @@ namespace ModuleAssignment.Controllers
 
         [HttpDelete]
         [ArgumentCountFilter]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Remove(int id)
         {

@@ -46,7 +46,6 @@ namespace ModuleAssignment.Controllers
 
         [HttpPost]
         [ArgumentCountFilter]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PasswordUpdate(PasswordDTO dto)
         {
             var User = HttpContext.User;
@@ -86,7 +85,6 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Credential credential)
         {
             if (!_UnitofWork.CredentialRepository.UsernameExists(credential.Username))
@@ -102,7 +100,6 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(CredentialDTO credential)
         {
             _UnitofWork.CredentialRepository.Update(_Mapper.Map<Credential>(credential));
@@ -114,7 +111,6 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(int id)
         {
             _UnitofWork.CredentialRepository.Delete(id);

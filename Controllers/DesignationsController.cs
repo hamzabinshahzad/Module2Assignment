@@ -45,7 +45,6 @@ namespace ModuleAssignment.Controllers
         [HttpPost]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Designation designation)
         {
             _UnitOfWork.DesignationRepository.Add(designation);
@@ -57,7 +56,6 @@ namespace ModuleAssignment.Controllers
         [HttpPut]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(DesignationDTO designation)
         {
             _UnitOfWork.DesignationRepository.Update(_Mapper.Map<Designation>(designation));
@@ -69,7 +67,6 @@ namespace ModuleAssignment.Controllers
         [HttpDelete]
         [ArgumentCountFilter]
         [Authorize(Roles = "admin")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Remove(int id)
         {
             _UnitOfWork.DesignationRepository.Delete(id);
