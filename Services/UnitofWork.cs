@@ -12,17 +12,18 @@ namespace ModuleAssignment.Services
 
 
         public IEmployeeRepository EmployeeRepository { get; private set; }
-        public IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; private set; }
+        public IEmployeeAddressRepository EmployeeAddressRepository { get; private set; }
         public IGenericRepository<EmployeeType> EmployeeTypeRepository { get; private set; }
         public IDepartmentRepository DepartmentRepository { get; private set; }
         public IGenericRepository<Designation> DesignationRepository { get; private set; }
+        public ICredentialRepository CredentialRepository { get; private set; }
 
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
-            IEmployeeRepository employeeRepository, IGenericRepository<EmployeeAddress> employeeAddressRepository,
+            IEmployeeRepository employeeRepository, IEmployeeAddressRepository employeeAddressRepository,
             IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
-            IGenericRepository<Designation> designationRepository
+            IGenericRepository<Designation> designationRepository, ICredentialRepository credentialRepository
         )
         {
             Context = IncomingContext;
@@ -31,14 +32,15 @@ namespace ModuleAssignment.Services
             EmployeeTypeRepository = employeeTypeRepository;
             DepartmentRepository = departmentRepository;
             DesignationRepository = designationRepository;
+            CredentialRepository = credentialRepository;
         }
 
 
-        public int Commit()
+        public async Task<int> CommitAsync()
         {
             try
             { 
-                int entries = Context.SaveChanges();
+                int entries = await Context.SaveChangesAsync();
                 Console.WriteLine($"DB_IO: Entries written: {entries}");
                 return entries;
             }
@@ -50,6 +52,11 @@ namespace ModuleAssignment.Services
             catch(DBConcurrencyException e)
             {
                 Console.WriteLine($"ERROR: Unable to perform CRUD in DB => {e.Message}");
+                return 0;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"ERROR: {e.Message}");
                 return 0;
             }
         }

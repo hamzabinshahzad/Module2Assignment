@@ -6,11 +6,12 @@ namespace ModuleAssignment.Services
     public interface IUnitofWork
     {
         IEmployeeRepository EmployeeRepository { get; }
-        IGenericRepository<EmployeeAddress> EmployeeAddressRepository { get; }
+        IEmployeeAddressRepository EmployeeAddressRepository { get; }
         IGenericRepository<EmployeeType> EmployeeTypeRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
         IGenericRepository<Designation> DesignationRepository { get; }
+        ICredentialRepository CredentialRepository { get; }
 
-        int Commit();
+        Task<int> CommitAsync();
     }
 }
