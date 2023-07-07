@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿using ModuleAssignment.Filters.ValidationFilters;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModuleAssignment.Models
@@ -11,7 +12,7 @@ namespace ModuleAssignment.Models
 
         [Required]
         [StringLength(255, MinimumLength = 5, ErrorMessage = @"Designation Name length must be between {1} and {2} characters!")]
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z ]*$", ErrorMessage = @"Designation Name must only contain alphabets and spaces!")]
+        [AlphaSpaceOnlyFilter]
         public string DesignationName { get; set; }
 
         [SwaggerSchema(ReadOnly = true)]

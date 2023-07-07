@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
+﻿using ModuleAssignment.Filters.ValidationFilters;
+using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModuleAssignment.Models
@@ -11,11 +12,11 @@ namespace ModuleAssignment.Models
 
         [Required]
         [StringLength(256, MinimumLength = 5, ErrorMessage = @"Full Name length must be between {1} and {2} alphabets!")]
-        [RegularExpression(@"^[a-zA-Z]+[a-zA-Z ]*$", ErrorMessage = "Full Name must only contain alphabets and spaces!")]
+        [AlphaSpaceOnlyFilter]
         public string FullName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Gender field must only contains alphabets!")]
+        [AlphabetOnlyFilter]
         public string Gender { get; set; }
 
         [Required]
@@ -34,7 +35,7 @@ namespace ModuleAssignment.Models
         [Required]
         [Phone]
         [StringLength(15, MinimumLength = 10, ErrorMessage = @"Mobile Phone number length must be between {1} and {2} digits!")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = @"Mobile Phone number must only contain numeric digits!")]
+        [NumericOnlyFilter]
         public string Mobile { get; set; }
 
         [Required]
