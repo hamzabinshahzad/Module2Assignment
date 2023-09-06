@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Custom: ignore appsettings.json to prevent sending sensitive information
+appsettings.json
