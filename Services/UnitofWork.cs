@@ -17,13 +17,15 @@ namespace ModuleAssignment.Services
         public IDepartmentRepository DepartmentRepository { get; private set; }
         public IGenericRepository<Designation> DesignationRepository { get; private set; }
         public ICredentialRepository CredentialRepository { get; private set; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; private set; }
 
 
         public UnitofWork(
             EmployeeDbContext IncomingContext,
             IEmployeeRepository employeeRepository, IEmployeeAddressRepository employeeAddressRepository,
             IGenericRepository<EmployeeType> employeeTypeRepository, IDepartmentRepository departmentRepository,
-            IGenericRepository<Designation> designationRepository, ICredentialRepository credentialRepository
+            IGenericRepository<Designation> designationRepository, ICredentialRepository credentialRepository,
+            IRefreshTokenRepository refreshTokenRepository
         )
         {
             Context = IncomingContext;
@@ -33,6 +35,7 @@ namespace ModuleAssignment.Services
             DepartmentRepository = departmentRepository;
             DesignationRepository = designationRepository;
             CredentialRepository = credentialRepository;
+            RefreshTokenRepository = refreshTokenRepository;
         }
 
 

@@ -52,6 +52,7 @@ builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<E
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
 builder.Services.AddScoped<ICredentialRepository, CredentialRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 
 // DbContext

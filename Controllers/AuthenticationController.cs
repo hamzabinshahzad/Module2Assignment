@@ -30,8 +30,14 @@ namespace ModuleAssignment.Controllers
         public IActionResult SignIn(SignInDTO credential)
         {
             var ReqCred = _UnitofWork.CredentialRepository.CheckCredentials(_Mapper.Map<Credential>(credential));
-            if (ReqCred != null) return Ok(_UnitofWork.CredentialRepository.GenerateToken(ReqCred));
-            else return StatusCode(403, "Invalid username or password!");
+            if (ReqCred == null) return StatusCode(403, "Invalid username or password!");
+            var RefreshToken = _UnitofWork.RefreshTokenRepository.GenerateRefreshToken(ReqCred.Id);
+            Response.Cookies.Append(
+                "refreshToken",
+                RefreshToken.Token,
+                new CookieOptions { HttpOnly = true, Expires = RefreshToken.Expires }
+            );
+            return Ok(_UnitofWork.CredentialRepository.GenerateToken(ReqCred));
         }
 
 

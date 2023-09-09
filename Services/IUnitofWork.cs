@@ -11,6 +11,7 @@ namespace ModuleAssignment.Services
         IDepartmentRepository DepartmentRepository { get; }
         IGenericRepository<Designation> DesignationRepository { get; }
         ICredentialRepository CredentialRepository { get; }
+        IRefreshTokenRepository RefreshTokenRepository { get; }
 
         Task<int> CommitAsync();
     }

@@ -13,5 +13,6 @@ namespace ModuleAssignment.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Designation> Designations { get; set; }
         public DbSet<Credential> Credentials { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
