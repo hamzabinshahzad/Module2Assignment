@@ -52,10 +52,14 @@ builder.Services.AddScoped<IGenericRepository<EmployeeType>, GenericRepository<E
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Designation>, GenericRepository<Designation>>();
 builder.Services.AddScoped<ICredentialRepository, CredentialRepository>();
+builder.Services.AddScoped<Query>();
 
 
 // DbContext
 builder.Services.AddDbContext<EmployeeDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AppCon")));
+// GraphQL Service and our Query Context File(s)
+builder.Services.AddGraphQLServer().AddQueryType<Query>();
+
 
 var app = builder.Build();
 
@@ -71,5 +75,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Graph QL route handler middleware:
+app.MapGraphQL("/graphql");
 
 app.Run();
